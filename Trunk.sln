@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trunk.Parsers", "src\Trunk.Parsers\Trunk.Parsers.csproj", "{19C5D2CB-00F0-43C7-8F79-11585C32C1DF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Parsers", "Parsers", "{453F75EE-F01F-4878-BC33-BEC9BC2B058A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trunk.Parsers.Tests", "test\Trunk.Parsers.Tests\Trunk.Parsers.Tests.csproj", "{EC89B99F-C13A-4F11-83C6-23EBB09FA60F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{19C5D2CB-00F0-43C7-8F79-11585C32C1DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19C5D2CB-00F0-43C7-8F79-11585C32C1DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19C5D2CB-00F0-43C7-8F79-11585C32C1DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19C5D2CB-00F0-43C7-8F79-11585C32C1DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC89B99F-C13A-4F11-83C6-23EBB09FA60F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC89B99F-C13A-4F11-83C6-23EBB09FA60F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC89B99F-C13A-4F11-83C6-23EBB09FA60F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC89B99F-C13A-4F11-83C6-23EBB09FA60F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{19C5D2CB-00F0-43C7-8F79-11585C32C1DF} = {453F75EE-F01F-4878-BC33-BEC9BC2B058A}
+		{EC89B99F-C13A-4F11-83C6-23EBB09FA60F} = {453F75EE-F01F-4878-BC33-BEC9BC2B058A}
+	EndGlobalSection
+EndGlobal

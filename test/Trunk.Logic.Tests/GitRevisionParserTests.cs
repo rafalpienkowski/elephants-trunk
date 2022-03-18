@@ -1,7 +1,10 @@
+using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Trunk.Logic.Models;
 using Trunk.Logic.Parsers;
 using Xunit;
 
@@ -43,6 +46,15 @@ public class GitRevisionParserTests
         var revisions = await _gitRevisionParser.ParseAsync(streamReader);
         
         revisions.Should().NotBeNull();
+        revisions.Should().HaveCount(1);
+        var firstRevision = revisions.First();
+        AssertRevisionWithhoutFileChange(firstRevision, "Adam Tornhill", "Remove dead code such as earlier prototypes",
+            new DateTime(2020, 12, 29, 0, 0, 0), 2);
+
+        var firstFileChange = firstRevision.FileChanges.First();
+        AssertFileChange(firstFileChange, 1, 14, "src/code_maat/analysis/authors.clj");
+        var lastFileChange = firstRevision.FileChanges.Last();
+        AssertFileChange(lastFileChange, 0, 47, "src/code_maat/parsers/limitters.clj");
     }
 
     [Fact]
@@ -53,6 +65,28 @@ public class GitRevisionParserTests
         var revisions = await _gitRevisionParser.ParseAsync(streamReader);
         
         revisions.Should().NotBeNull();
+        revisions.Should().HaveCount(3);
+
+        var firstRevision = revisions.First();
+        AssertRevisionWithhoutFileChange(firstRevision, "Adam Tornhill",
+            "#57 The messages analysis is not supported for git2", new DateTime(2020, 12, 29, 0, 0, 0), 4);
     }
 
+    private static void AssertRevisionWithhoutFileChange(Revision revision, string author, string message,
+        DateTime date, int fileChanges)
+    {
+        revision.Should().NotBeNull();
+        revision.Author.Should().Be(author);
+        revision.Date.Should().Be(date);
+        revision.Message.Should().Be(message);
+        revision.FileChanges.Should().HaveCount(fileChanges);
+    }
+
+    private static void AssertFileChange(FileChange fileChange, uint linesAdded, uint linesRemoved, string filePath)
+    {
+        fileChange.Should().NotBeNull();
+        fileChange.LinesAdded.Should().Be(linesAdded);
+        fileChange.LinesRemoved.Should().Be(linesRemoved);
+        fileChange.FilePath.Should().Be(filePath);
+    }
 }

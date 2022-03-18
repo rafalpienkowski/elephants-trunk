@@ -17,5 +17,6 @@ public class FileRevisionLoaderTests
         var revisions = await revisionParser.ParseAsync(streamReader);
         
         revisions.Should().NotBeNull();
+        revisions.Should().HaveCount(315);
     }
 }

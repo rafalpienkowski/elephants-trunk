@@ -11,7 +11,7 @@ internal class GitRevisionParser : IRevisionParser
     private static readonly Regex RevisionRegex = new(@"^\[([0-9A-Fa-f]{5,12})\].(.*?)([0-9]{4}-[0-9]{2}-[0-9]{2}).(.*)",
         RegexOptions.Singleline | RegexOptions.Compiled, TimeSpan.FromSeconds(5));
 
-    private static readonly Regex FileChangeRegex = new(@"(\d*)\t(\d*)\t(.*)",
+    private static readonly Regex FileChangeRegex = new(@"(\d*|-)\t(\d*|-)\t(.*)",
         RegexOptions.Singleline | RegexOptions.Compiled, TimeSpan.FromSeconds(5));
     
     public async Task<List<Revision>> ParseAsync(StreamReader streamReader)

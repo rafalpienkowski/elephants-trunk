@@ -15,9 +15,11 @@ public class FileChange
     {
         return new FileChange
         {
-            LinesAdded = uint.Parse(match.Groups[1].Value),
-            LinesRemoved = uint.Parse(match.Groups[2].Value),
+            LinesAdded = IsEmptyChange(match.Groups[1].Value) ? 0 : uint.Parse(match.Groups[1].Value),
+            LinesRemoved = IsEmptyChange(match.Groups[2].Value) ? 0 : uint.Parse(match.Groups[2].Value),
             FilePath = match.Groups[3].Value.Trim()
         };
     }
+
+    private static bool IsEmptyChange(string change) => change.Equals("-");
 }

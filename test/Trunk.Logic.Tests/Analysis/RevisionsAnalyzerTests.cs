@@ -5,7 +5,7 @@ using Trunk.Logic.Analysis;
 using Trunk.Logic.Tests.Fixtures;
 using Xunit;
 
-namespace Trunk.Logic.Tests;
+namespace Trunk.Logic.Tests.Analysis;
 
 public class RevisionsAnalyzerTests
 {

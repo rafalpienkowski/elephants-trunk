@@ -8,7 +8,7 @@ using Trunk.Logic.Models;
 using Trunk.Logic.Parsers;
 using Xunit;
 
-namespace Trunk.Logic.Tests;
+namespace Trunk.Logic.Tests.Parsers;
 
 public class GitRevisionParserTests
 {

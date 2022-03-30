@@ -4,7 +4,7 @@ using Trunk.Logic.Loaders;
 using Trunk.Logic.Parsers;
 using Xunit;
 
-namespace Trunk.Logic.Tests;
+namespace Trunk.Logic.Tests.Loaders;
 
 public class FileRevisionLoaderTests
 {

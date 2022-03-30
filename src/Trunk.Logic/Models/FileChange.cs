@@ -7,19 +7,21 @@ namespace Trunk.Logic.Models;
 /// </summary>
 public class FileChange
 {
-    public uint LinesAdded { get; set; }
-    public uint LinesRemoved { get; set; }
-    public string FilePath { get; set; }
+    public uint LinesAdded { get; }
+    public uint LinesRemoved { get; }
+    public string FilePath { get; }
 
-    public static FileChange From(Match match)
+    private FileChange(uint linesAdded, uint linesRemoved, string filePath)
     {
-        return new FileChange
-        {
-            LinesAdded = IsEmptyChange(match.Groups[1].Value) ? 0 : uint.Parse(match.Groups[1].Value),
-            LinesRemoved = IsEmptyChange(match.Groups[2].Value) ? 0 : uint.Parse(match.Groups[2].Value),
-            FilePath = match.Groups[3].Value.Trim()
-        };
+        LinesAdded = linesAdded;
+        LinesRemoved = linesRemoved;
+        FilePath = filePath;
     }
+
+    public static FileChange From(Match match) =>
+        new(IsEmptyChange(match.Groups[1].Value) ? 0 : uint.Parse(match.Groups[1].Value),
+            IsEmptyChange(match.Groups[2].Value) ? 0 : uint.Parse(match.Groups[2].Value), 
+            match.Groups[3].Value.Trim());
 
     private static bool IsEmptyChange(string change) => change.Equals("-");
 }

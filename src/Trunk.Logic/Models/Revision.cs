@@ -7,20 +7,21 @@ namespace Trunk.Logic.Models;
 /// </summary>
 public class Revision
 {
-    public string CommitHash { get; set; }
-    public string Author { get; set; }
-    public DateTime Date { get; set; }
-    public string Message { get; set; }
-    public List<FileChange> FileChanges { get; set; } = new();
+    public string CommitHash { get; }
+    public string Author { get; }
+    public DateTime Date { get; }
+    public string Message { get; }
+    public List<FileChange> FileChanges { get; } = new();
 
-    public static Revision From(Match match)
+    private Revision(string commitHash, string author, DateTime date, string message)
     {
-        return new Revision
-        {
-            CommitHash = match.Groups[1].Value.Trim(),
-            Author = match.Groups[2].Value.Trim(),
-            Date = DateTime.Parse(match.Groups[3].Value),
-            Message = match.Groups[4].Value.Trim()
-        };
+        CommitHash = commitHash;
+        Author = author;
+        Date = date;
+        Message = message; 
     }
+
+    public static Revision From(Match match) =>
+         new(match.Groups[1].Value.Trim(), match.Groups[2].Value.Trim(),
+            DateTime.Parse(match.Groups[3].Value), match.Groups[4].Value.Trim());
 }

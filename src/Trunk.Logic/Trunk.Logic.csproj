@@ -13,4 +13,8 @@
             <_Parameter1>Trunk.Logic.Tests</_Parameter1>
         </AssemblyAttribute>
     </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Easy.Common" Version="4.2.0" />
+    </ItemGroup>
 </Project>

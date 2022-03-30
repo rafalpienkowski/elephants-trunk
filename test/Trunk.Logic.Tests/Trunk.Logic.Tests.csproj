@@ -26,8 +26,16 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="Resources\code_maat.log" />
       <Content Include="Resources\code_maat.log">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Resources\SubDir\OneLineFile.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources\SubDir\SixteenLinesFile.txt">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
     </ItemGroup>

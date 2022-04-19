@@ -15,15 +15,13 @@ public class SummaryAnalyzerTests
     {
         var revisions = await RevisionFixture.LoadSampleRevisions();
 
-        var analyzeResult = _sut.Analyze(revisions);
+        var revisionSummary = SummaryAnalyzer.Analyze(revisions);
 
-        analyzeResult.Should().NotBeNull();
-        analyzeResult.Should().BeOfType(typeof(SummaryAnalysisResult));
-        var summaryResult = (SummaryAnalysisResult) analyzeResult;
+        revisionSummary.Should().NotBeNull();
 
-        summaryResult.NumberOfCommits.Should().Be(315);
-        summaryResult.NumberOfEntities.Should().Be(104);
-        summaryResult.NumberOfEntitiesChanged.Should().Be(766);
-        summaryResult.NumberOfAuthors.Should().Be(22);
+        revisionSummary.NumberOfCommits.Should().Be(315);
+        revisionSummary.NumberOfEntities.Should().Be(104);
+        revisionSummary.NumberOfEntitiesChanged.Should().Be(766);
+        revisionSummary.NumberOfAuthors.Should().Be(22);
     }
 }

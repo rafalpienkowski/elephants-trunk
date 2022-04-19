@@ -9,24 +9,20 @@ namespace Trunk.Logic.Tests.Analysis;
 
 public class RevisionsAnalyzerTests
 {
-    private readonly RevisionsAnalyzer _sut = new();
-
     [Fact]
     public async Task Should_calculate_entities_frequencies()
     {
         var revisions = await RevisionFixture.LoadSampleRevisions();
 
-        var analyzeResult = _sut.Analyze(revisions);
+        var entityFrequencies = RevisionsAnalyzer.Analyze(revisions);
         
-        analyzeResult.Should().NotBeNull();
-        analyzeResult.Should().BeOfType(typeof(RevisionAnalysisResult));
-        var revisionAnalysisResult = (RevisionAnalysisResult)analyzeResult;
+        entityFrequencies.Should().NotBeNull();
 
-        var mostChangedEntity = revisionAnalysisResult.EntityFrequencies.First();
+        var mostChangedEntity = entityFrequencies.First();
         AssertEntityFrequency(mostChangedEntity, "project.clj", 72);
-        var secondMostChangedEntity = revisionAnalysisResult.EntityFrequencies.Skip(1).First();
+        var secondMostChangedEntity = entityFrequencies.Skip(1).First();
         AssertEntityFrequency(secondMostChangedEntity, "src/code_maat/app/app.clj", 61);
-        var thirdMostChangedEntity = revisionAnalysisResult.EntityFrequencies.Skip(2).First();
+        var thirdMostChangedEntity = entityFrequencies.Skip(2).First();
         AssertEntityFrequency(thirdMostChangedEntity, "README.md", 58);
     }
 

@@ -6,9 +6,9 @@ namespace Trunk.Logic.Analysis;
 /// <summary>
 /// Calculates a summary from a log
 /// </summary>
-public class SummaryAnalyzer : ICodeAnalyzer
+public class SummaryAnalyzer 
 {
-    public IAnalysisResult Analyze(IList<Revision> revisions)
+    public static RevisionSummary Analyze(IList<Revision> revisions)
     {
         var commits = revisions.Count;
         var filesChanged = revisions.SelectMany(r => r.FileChanges).Select(file => file.FilePath).ToList();
@@ -16,34 +16,22 @@ public class SummaryAnalyzer : ICodeAnalyzer
         var entitiesChanged = filesChanged.Count;
         var authors = revisions.Select(r => r.Author).Distinct().Count();
 
-        return new SummaryAnalysisResult(commits, entities, entitiesChanged, authors);
+        return new RevisionSummary(commits, entities, entitiesChanged, authors);
     }
 }
 
-public class SummaryAnalysisResult : IAnalysisResult
+public class RevisionSummary 
 {
     public int NumberOfCommits { get; }
     public int NumberOfEntities { get; }
     public int NumberOfEntitiesChanged { get; }
     public int NumberOfAuthors { get; }
 
-    public SummaryAnalysisResult(int numberOfCommits, int numberOfEntities, int numberOfEntitiesChanged, int numberOfAuthors)
+    public RevisionSummary(int numberOfCommits, int numberOfEntities, int numberOfEntitiesChanged, int numberOfAuthors)
     {
         NumberOfCommits = numberOfCommits;
         NumberOfEntities = numberOfEntities;
         NumberOfEntitiesChanged = numberOfEntitiesChanged;
         NumberOfAuthors = numberOfAuthors;
-    }
-
-    public string ToCsv()
-    {
-        var sb = new StringBuilder("statistic,value");
-        
-        sb.AppendLine($"number-of-commits,{NumberOfCommits.ToString()}");
-        sb.AppendLine($"number-of-entities,{NumberOfEntities.ToString()}");
-        sb.AppendLine($"number-of-authors,{NumberOfAuthors.ToString()}");
-        sb.AppendLine($"number-of-entity-changed,{NumberOfEntitiesChanged.ToString()}");
-        
-        return sb.ToString();
     }
 }

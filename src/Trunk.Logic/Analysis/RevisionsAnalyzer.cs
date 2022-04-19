@@ -1,4 +1,3 @@
-using System.Text;
 using Trunk.Logic.Models;
 
 namespace Trunk.Logic.Analysis;
@@ -6,14 +5,14 @@ namespace Trunk.Logic.Analysis;
 /// <summary>
 /// Calculates the frequency of changes in a file
 /// </summary>
-public class RevisionsAnalyzer : ICodeAnalyzer
+public class RevisionsAnalyzer 
 {
-    public IAnalysisResult Analyze(IList<Revision> revisions)
+    public static List<EntityFrequency> Analyze(IEnumerable<Revision> revisions)
     {
         var revisionGroups = revisions.SelectMany(r => r.FileChanges).GroupBy(fc => fc.FilePath)
             .Select(g => new EntityFrequency(g.Key, g.Count())).OrderByDescending(r => r.RevisionNumber).ToList();
 
-        return new RevisionAnalysisResult(revisionGroups);
+        return revisionGroups;
     }
 }
 
@@ -26,25 +25,5 @@ public class EntityFrequency
     {
         Entity = entity;
         RevisionNumber = revisionNumber;
-    }
-}
-
-public class RevisionAnalysisResult : IAnalysisResult
-{
-    public List<EntityFrequency> EntityFrequencies { get; }
-
-    public RevisionAnalysisResult(List<EntityFrequency> entityFrequencies)
-    {
-        EntityFrequencies = entityFrequencies;
-    }
-
-    public string ToCsv()
-    {
-        var sb = new StringBuilder("entity,n-revs");
-        foreach (var entityFrequency in EntityFrequencies)
-        {
-            sb.AppendLine($"{entityFrequency.Entity},{entityFrequency.RevisionNumber.ToString()}");
-        }
-        return sb.ToString();
     }
 }

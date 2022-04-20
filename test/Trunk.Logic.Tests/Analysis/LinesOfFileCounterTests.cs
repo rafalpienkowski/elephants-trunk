@@ -19,10 +19,10 @@ public class LinesOfFileCounterTests
 
         result.Should().NotBeNull();
         result.Should().HaveCount(2);
-        var oneLineFile = result.FirstOrDefault(fl => fl.Path == $"{dirName}/OneLineFile.txt");
-        AsserFileLines($"{dirName}/OneLineFile.txt", 1, oneLineFile);
-        var sixteenLinesFile = result.FirstOrDefault(fl => fl.Path == $"{dirName}/SixteenLinesFile.txt");
-        AsserFileLines($"{dirName}/SixteenLinesFile.txt", 16, sixteenLinesFile);
+        var oneLineFile = result.FirstOrDefault(fl => fl.Path == "OneLineFile.txt");
+        AsserFileLines("OneLineFile.txt", 1, oneLineFile);
+        var sixteenLinesFile = result.FirstOrDefault(fl => fl.Path == "SixteenLinesFile.txt");
+        AsserFileLines("SixteenLinesFile.txt", 16, sixteenLinesFile);
     }
 
     [Fact]
@@ -33,12 +33,12 @@ public class LinesOfFileCounterTests
 
         result.Should().NotBeNull();
         result.Should().HaveCount(3);
-        var oneLineFile = result.FirstOrDefault(fl => fl.Path == $"{dirName}/SubDir/OneLineFile.txt");
-        AsserFileLines($"{dirName}/SubDir/OneLineFile.txt", 1, oneLineFile);
-        var sixteenLinesFile = result.FirstOrDefault(fl => fl.Path == $"{dirName}/SubDir/SixteenLinesFile.txt");
-        AsserFileLines($"{dirName}/SubDir/SixteenLinesFile.txt", 16, sixteenLinesFile);
-        var codeMaatLogFile = result.FirstOrDefault(fl => fl.Path == $"{dirName}/code_maat.log");
-        AsserFileLines($"{dirName}/code_maat.log", 1395, codeMaatLogFile);
+        var oneLineFile = result.FirstOrDefault(fl => fl.Path == "SubDir/OneLineFile.txt");
+        AsserFileLines("SubDir/OneLineFile.txt", 1, oneLineFile);
+        var sixteenLinesFile = result.FirstOrDefault(fl => fl.Path == "SubDir/SixteenLinesFile.txt");
+        AsserFileLines("SubDir/SixteenLinesFile.txt", 16, sixteenLinesFile);
+        var codeMaatLogFile = result.FirstOrDefault(fl => fl.Path == "code_maat.log");
+        AsserFileLines("code_maat.log", 1395, codeMaatLogFile);
     }
 
     [Fact]

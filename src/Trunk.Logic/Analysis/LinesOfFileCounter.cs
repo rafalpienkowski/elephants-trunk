@@ -18,22 +18,23 @@ public class LinesOfFileCounter
             throw new ArgumentOutOfRangeException(nameof(path), "Given directory does not exist");
         }
 
-        CountLines(path, files);
+        CountLines(path, files, path);
 
         return files;
     }
 
-    private static void CountLines(string path, List<FileLines> files)
+    private static void CountLines(string path, ICollection<FileLines> files, string rootPath)
     {
+        var pathLength = rootPath.Length + 1;
         foreach (var file in Directory.GetFiles(path))
         {
             var lines = File.OpenRead(file).CountLines();
-            files.Add(FileLines.From(file, lines));
-
-            foreach (var directory in Directory.GetDirectories(path))
-            {
-                CountLines(directory, files);
-            }
+            files.Add(FileLines.From(file[pathLength..], lines));
+        }
+        
+        foreach (var directory in Directory.GetDirectories(path).Where(d => !d.EndsWith(".git")))
+        {
+            CountLines(directory, files, rootPath);
         }
     }
 }

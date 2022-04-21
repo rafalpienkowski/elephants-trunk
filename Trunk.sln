@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trunk.Logic", "src\Trunk.Lo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trunk.Logic.Tests", "test\Trunk.Logic.Tests\Trunk.Logic.Tests.csproj", "{EC89B99F-C13A-4F11-83C6-23EBB09FA60F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trunk.App", "Trunk.App\Trunk.App.csproj", "{C9D983A4-156C-4224-8511-446140A0836D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trunk.App", "src\Trunk.App\Trunk.App.csproj", "{C9D983A4-156C-4224-8511-446140A0836D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

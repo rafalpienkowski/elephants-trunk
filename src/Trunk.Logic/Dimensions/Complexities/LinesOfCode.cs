@@ -1,17 +1,20 @@
 using Easy.Common.Extensions;
 
-namespace Trunk.Logic.Analysis;
+namespace Trunk.Logic.Dimensions.Complexities;
 
-public class LinesOfFileCounter
+/// <summary>
+/// Calculates number of code lines
+/// </summary>
+public class LinesOfCode
 {
     /// <summary>
-    /// Counts recursively number of lines in files on given path
+    /// Counts recursively code lines in files under given path
     /// </summary>
     /// <param name="path">Path to analyze</param>
-    /// <returns><see cref="FileLines"/></returns>
-    public static List<FileLines> Count(string path)
+    /// <returns><see cref="CodeLines"/></returns>
+    public static List<CodeLines> Count(string path)
     {
-        var files = new List<FileLines>();
+        var files = new List<CodeLines>();
 
         if (!Directory.Exists(path))
         {
@@ -23,13 +26,13 @@ public class LinesOfFileCounter
         return files;
     }
 
-    private static void CountLines(string path, ICollection<FileLines> files, string rootPath)
+    private static void CountLines(string path, ICollection<CodeLines> files, string rootPath)
     {
         var pathLength = rootPath.Length + 1;
         foreach (var file in Directory.GetFiles(path))
         {
             var lines = File.OpenRead(file).CountLines();
-            files.Add(FileLines.From(file[pathLength..], lines));
+            files.Add(CodeLines.From(file[pathLength..], lines));
         }
         
         foreach (var directory in Directory.GetDirectories(path).Where(d => !d.EndsWith(".git")))
@@ -40,18 +43,18 @@ public class LinesOfFileCounter
 }
 
 /// <summary>
-/// Number of lines in give file
+/// Number of lines in single file
 /// </summary>
-public class FileLines
+public class CodeLines
 {
     public string Path { get; }
     public long Lines { get; }
 
-    private FileLines(string path, long lines)
+    private CodeLines(string path, long lines)
     {
         Path = path;
         Lines = lines;
     }
 
-    public static FileLines From(string path, long lines) => new FileLines(path.Replace(@"\",@"/"), lines);
+    public static CodeLines From(string path, long lines) => new(path.Replace(@"\",@"/"), lines);
 }

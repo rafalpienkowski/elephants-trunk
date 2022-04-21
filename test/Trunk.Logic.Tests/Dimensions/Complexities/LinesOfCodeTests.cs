@@ -1,21 +1,20 @@
 using System;
-using System.IO;
 using System.Linq;
 using FluentAssertions;
-using Trunk.Logic.Analysis;
+using Trunk.Logic.Dimensions.Complexities;
 using Xunit;
 
-namespace Trunk.Logic.Tests.Analysis;
+namespace Trunk.Logic.Tests.Dimensions.Complexities;
 
-public class LinesOfFileCounterTests
+public class LinesOfCodeTests
 {
-    private readonly LinesOfFileCounter _sut = new();
+    private readonly LinesOfCode _sut = new();
 
     [Fact]
     public void Count_lines_in_files_in_directory()
     {
         const string dirName = @"./Resources/SubDir";
-        var result = LinesOfFileCounter.Count(dirName);
+        var result = LinesOfCode.Count(dirName);
 
         result.Should().NotBeNull();
         result.Should().HaveCount(2);
@@ -29,7 +28,7 @@ public class LinesOfFileCounterTests
     public void Count_lines_in_files_in_directory_and_subdirectories()
     {
         const string dirName = @"./Resources";
-        var result = LinesOfFileCounter.Count(dirName);
+        var result = LinesOfCode.Count(dirName);
 
         result.Should().NotBeNull();
         result.Should().HaveCount(3);
@@ -44,12 +43,12 @@ public class LinesOfFileCounterTests
     [Fact]
     public void Does_not_count_lines_when_given_directory_not_exists()
     {
-        var act = () => { LinesOfFileCounter.Count("some_random_path"); };
+        var act = () => { LinesOfCode.Count("some_random_path"); };
 
         act.Should().Throw<ArgumentOutOfRangeException>();
     }
     
-    private static void AsserFileLines(string filePath, long linesCount, FileLines? givenFileLines)
+    private static void AsserFileLines(string filePath, long linesCount, CodeLines? givenFileLines)
     {
         givenFileLines.Should().NotBeNull();
         givenFileLines?.Lines.Should().Be(linesCount);

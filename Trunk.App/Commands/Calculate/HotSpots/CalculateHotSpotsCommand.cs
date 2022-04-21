@@ -1,6 +1,7 @@
 using Spectre.Console;
 using Spectre.Console.Cli;
 using Trunk.Logic.Analysis;
+using Trunk.Logic.Dimensions.Complexities;
 using Trunk.Logic.Loaders;
 using Trunk.Logic.Parsers;
 
@@ -39,7 +40,7 @@ public class CalculateHotSpotsCommand : AsyncCommand<CalculateHotSpotsSettings>
             var revisionFrequency = RevisionsAnalyzer.Analyze(revisions);
             
             ctx.Status("Counting file lines");
-            var lines = LinesOfFileCounter.Count(settings.RepositoryPath ?? ".");
+            var lines = LinesOfCode.Count(settings.RepositoryPath ?? ".");
 
             ctx.Status("Calculating combined complexity");
             var combinedComplexities = CalculateCombinedComplexities(revisionFrequency, lines);
@@ -53,7 +54,7 @@ public class CalculateHotSpotsCommand : AsyncCommand<CalculateHotSpotsSettings>
         return 0;
     }
 
-    private static List<CombinedComplexity> CalculateCombinedComplexities(List<EntityFrequency> revisionFrequency, List<FileLines> lines)
+    private static List<CombinedComplexity> CalculateCombinedComplexities(List<EntityFrequency> revisionFrequency, List<CodeLines> lines)
     {
         var combinedComplexities = (from entityFrequencyGroup in revisionFrequency.GroupBy(rf => rf.Entity)
                 where lines.SingleOrDefault(l => l.Path == entityFrequencyGroup.Key) != null

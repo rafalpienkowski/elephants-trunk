@@ -34,7 +34,6 @@ public class CalculateHotSpotsCommand : AsyncCommand<CalculateHotSpotsSettings>
             var loader = new FileSourceControlLogLoader(settings.GitLogFilePath);
             using var streamReader = await loader.LoadAsync();
             ctx.Status("Parsing git revisions");
-            var revisionParser = new GitRevisionParser();
             var revisions = await GitRevisionParser.ParseAsync(streamReader);
 
             ctx.Status("Calculating changes");

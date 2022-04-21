@@ -1,5 +1,6 @@
 using Spectre.Console;
 using Spectre.Console.Cli;
+using Trunk.App.Extensions;
 using Trunk.Logic.Dimensions.Complexities;
 
 namespace Trunk.App.Dimensions.Complexities;
@@ -10,9 +11,8 @@ public class MeasureCodeLinesCommand : AsyncCommand<MeasureCodeLinesSettings>
     {
         await AnsiConsole.Status().StartAsync("Measuring...", async ctx =>
         {
-            ctx.Spinner(Spinner.Known.Star);
-            ctx.SpinnerStyle(Style.Parse("green"));
-            
+            ctx.SetupSpinner();
+
             ctx.Status("Counting lines of code");
             var codeLinesCollection = LinesOfCodeMeasurement.Measure(settings.RootPath);
             

@@ -22,7 +22,7 @@ public class MeasureFrequencyOfChangesCommand : AsyncCommand<MeasureFrequencyOfC
             var frequencies = ChangesInFileMeasurement.Measure(revisions);
             
             ctx.Status("Saving result to output");
-            await SaveOutput(settings, frequencies);
+            await settings.OutputFileName.WriteToCsvFile(frequencies);
 
         });
 
@@ -40,20 +40,5 @@ public class MeasureFrequencyOfChangesCommand : AsyncCommand<MeasureFrequencyOfC
         using var streamReader = await loader.LoadAsync();
         var revisions = await GitRevisionParser.ParseAsync(streamReader);
         return revisions;
-    }
-
-    private static async Task SaveOutput(MeasureFrequencyOfChangesSettings settings, List<FrequencyOfChanges> frequencyOfChanges)
-    {
-        if (File.Exists(settings.OutputFileName))
-        {
-            File.Delete(settings.OutputFileName);
-        }
-
-        await using var sw = new StreamWriter(settings.OutputFileName);
-        await sw.WriteLineAsync("path,number of changes");
-        foreach (var changes in frequencyOfChanges)
-        {
-            await sw.WriteLineAsync($"{changes.Path},{changes.NumberOfChanges}");
-        }
     }
 }

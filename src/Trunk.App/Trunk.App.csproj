@@ -8,11 +8,16 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="CsvHelper" Version="27.2.1" />
       <PackageReference Include="Spectre.Console" Version="0.44.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Trunk.Logic\Trunk.Logic.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Analysis" />
     </ItemGroup>
 
 </Project>

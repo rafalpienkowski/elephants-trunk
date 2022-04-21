@@ -17,24 +17,9 @@ public class MeasureCodeLinesCommand : AsyncCommand<MeasureCodeLinesSettings>
             var codeLinesCollection = LinesOfCodeMeasurement.Measure(settings.RootPath);
             
             ctx.Status("Saving result to output");
-            await SaveOutput(settings, codeLinesCollection);
+            await settings.OutputFileName.WriteToCsvFile(codeLinesCollection);
         });
 
         return 0;
-    }
-
-    private static async Task SaveOutput(MeasureCodeLinesSettings settings, List<CodeLines> codeLinesCollection)
-    {
-        if (File.Exists(settings.OutputFileName))
-        {
-            File.Delete(settings.OutputFileName);
-        }
-
-        await using var sw = new StreamWriter(settings.OutputFileName);
-        await sw.WriteLineAsync("path,lines");
-        foreach (var codeLine in codeLinesCollection)
-        {
-            await sw.WriteLineAsync($"{codeLine.Path},{codeLine.Lines}");
-        }
     }
 }

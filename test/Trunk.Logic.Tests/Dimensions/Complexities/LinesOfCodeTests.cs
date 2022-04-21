@@ -8,8 +8,6 @@ namespace Trunk.Logic.Tests.Dimensions.Complexities;
 
 public class LinesOfCodeTests
 {
-    private readonly LinesOfCode _sut = new();
-
     [Fact]
     public void Count_lines_in_files_in_directory()
     {

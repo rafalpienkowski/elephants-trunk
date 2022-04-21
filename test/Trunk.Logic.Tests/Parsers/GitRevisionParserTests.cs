@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Trunk.Logic.Models;
 using Trunk.Logic.Parsers;
 using Xunit;
 
@@ -43,7 +42,7 @@ public class GitRevisionParserTests
     {
         var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(SingleRevision));
         var streamReader = new StreamReader(memoryStream);
-        var revisions = await _gitRevisionParser.ParseAsync(streamReader);
+        var revisions = await GitRevisionParser.ParseAsync(streamReader);
         
         revisions.Should().NotBeNull();
         revisions.Should().HaveCount(1);
@@ -62,7 +61,7 @@ public class GitRevisionParserTests
     {
         var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(MultipleRevisions));
         var streamReader = new StreamReader(memoryStream);
-        var revisions = await _gitRevisionParser.ParseAsync(streamReader);
+        var revisions = await GitRevisionParser.ParseAsync(streamReader);
         
         revisions.Should().NotBeNull();
         revisions.Should().HaveCount(3);

@@ -14,7 +14,7 @@ public class FileRevisionLoaderTests
         var loader = new FileSourceControlLogLoader(@"./Resources/code_maat.log");
         using var streamReader = await loader.LoadAsync();
         var revisionParser = new GitRevisionParser();
-        var revisions = await revisionParser.ParseAsync(streamReader);
+        var revisions = await GitRevisionParser.ParseAsync(streamReader);
         
         revisions.Should().NotBeNull();
         revisions.Should().HaveCount(315);

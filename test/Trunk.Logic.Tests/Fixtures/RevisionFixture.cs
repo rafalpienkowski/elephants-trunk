@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Trunk.Logic.Loaders;
-using Trunk.Logic.Models;
 using Trunk.Logic.Parsers;
 
 namespace Trunk.Logic.Tests.Fixtures;
@@ -16,6 +15,6 @@ public static class RevisionFixture
         var loader = new FileSourceControlLogLoader(@"./Resources/code_maat.log");
         using var streamReader = await loader.LoadAsync();
         var revisionParser = new GitRevisionParser();
-        return await revisionParser.ParseAsync(streamReader);
+        return await GitRevisionParser.ParseAsync(streamReader);
     }
 }

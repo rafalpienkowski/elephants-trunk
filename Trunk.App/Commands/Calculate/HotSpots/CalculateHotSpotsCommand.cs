@@ -35,7 +35,7 @@ public class CalculateHotSpotsCommand : AsyncCommand<CalculateHotSpotsSettings>
             using var streamReader = await loader.LoadAsync();
             ctx.Status("Parsing git revisions");
             var revisionParser = new GitRevisionParser();
-            var revisions = await revisionParser.ParseAsync(streamReader);
+            var revisions = await GitRevisionParser.ParseAsync(streamReader);
 
             ctx.Status("Calculating changes");
             var revisionFrequency = ChangesInFile.Measure(revisions);

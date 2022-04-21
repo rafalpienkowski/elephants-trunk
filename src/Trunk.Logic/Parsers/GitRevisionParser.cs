@@ -1,5 +1,4 @@
 using System.Text.RegularExpressions;
-using Trunk.Logic.Models;
 
 namespace Trunk.Logic.Parsers;
 
@@ -19,11 +18,10 @@ public class GitRevisionParser
     /// </summary>
     /// <param name="streamReader"><see cref="Stream"/></param>
     /// <returns><see cref="Revision"/></returns>
-    public async Task<List<Revision>> ParseAsync(StreamReader streamReader)
+    public static async Task<List<Revision>> ParseAsync(StreamReader streamReader)
     {
         var revisions = new List<Revision>();
-        string line;
-        while ((line = await streamReader.ReadLineAsync()) != null)
+        while (await streamReader.ReadLineAsync() is { } line)
         {
             var revisionMatch = RevisionRegex.Match(line);
             if (!revisionMatch.Success)

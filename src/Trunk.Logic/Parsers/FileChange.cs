@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace Trunk.Logic.Models;
+namespace Trunk.Logic.Parsers;
 
 /// <summary>
 /// Represents single file change in a revision

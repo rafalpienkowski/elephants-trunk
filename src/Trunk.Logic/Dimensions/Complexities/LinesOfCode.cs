@@ -5,7 +5,7 @@ namespace Trunk.Logic.Dimensions.Complexities;
 /// <summary>
 /// Calculates number of code lines
 /// </summary>
-public class LinesOfCode
+public static class LinesOfCode
 {
     /// <summary>
     /// Measures recursively code lines in files under given path
@@ -40,21 +40,4 @@ public class LinesOfCode
             CountLines(directory, files, rootPath);
         }
     }
-}
-
-/// <summary>
-/// Number of lines in single file
-/// </summary>
-public class CodeLines
-{
-    public string Path { get; }
-    public long Lines { get; }
-
-    private CodeLines(string path, long lines)
-    {
-        Path = path;
-        Lines = lines;
-    }
-
-    public static CodeLines From(string path, long lines) => new(path.Replace(@"\",@"/"), lines);
 }

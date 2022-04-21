@@ -41,7 +41,7 @@ public class CalculateHotSpotsCommand : AsyncCommand<CalculateHotSpotsSettings>
             var revisionFrequency = ChangesInFile.Measure(revisions);
             
             ctx.Status("Counting file lines");
-            var lines = LinesOfCode.Measure(settings.RepositoryPath ?? ".");
+            var lines = LinesOfCodeMeasurement.Measure(settings.RepositoryPath ?? ".");
 
             ctx.Status("Calculating combined complexity");
             var combinedComplexities = CalculateCombinedComplexities(revisionFrequency, lines);
@@ -55,7 +55,7 @@ public class CalculateHotSpotsCommand : AsyncCommand<CalculateHotSpotsSettings>
         return 0;
     }
 
-    private static List<CombinedComplexity> CalculateCombinedComplexities(List<FrequencyOfChanges> revisionFrequency, List<CodeLines> lines)
+    private static List<CombinedComplexity> CalculateCombinedComplexities(List<FrequencyOfChangesMeasurement> revisionFrequency, List<CodeLines> lines)
     {
         var combinedComplexities = (from entityFrequencyGroup in revisionFrequency.GroupBy(rf => rf.Path)
                 where lines.SingleOrDefault(l => l.Path == entityFrequencyGroup.Key) != null

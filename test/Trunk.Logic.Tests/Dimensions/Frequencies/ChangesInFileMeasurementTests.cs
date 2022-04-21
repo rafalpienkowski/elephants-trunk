@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Trunk.Logic.Tests.Dimensions.Frequencies;
 
-public class ChangesInFileTests
+public class ChangesInFileMeasurementTests
 {
     [Fact]
     public async Task Should_calculate_entities_frequencies()
@@ -26,10 +26,10 @@ public class ChangesInFileTests
         AssertEntityFrequency(thirdMostChangedEntity, "README.md", 58);
     }
 
-    private static void AssertEntityFrequency(FrequencyOfChanges frequencyOfChanges, string entity, int numberOfRevisions)
+    private static void AssertEntityFrequency(FrequencyOfChangesMeasurement frequencyOfChangesMeasurement, string entity, int numberOfRevisions)
     {
-        frequencyOfChanges.Should().NotBeNull();
-        frequencyOfChanges.Path.Should().Be(entity);
-        frequencyOfChanges.NumberOfChanges.Should().Be(numberOfRevisions);
+        frequencyOfChangesMeasurement.Should().NotBeNull();
+        frequencyOfChangesMeasurement.Path.Should().Be(entity);
+        frequencyOfChangesMeasurement.NumberOfChanges.Should().Be(numberOfRevisions);
     }
 }

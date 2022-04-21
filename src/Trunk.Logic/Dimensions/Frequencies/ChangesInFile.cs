@@ -11,11 +11,11 @@ public static class ChangesInFile
     /// Measures the number of changes in files based on revisions
     /// </summary>
     /// <param name="revisions"><see cref="Revision"/></param>
-    /// <returns><see cref="FrequencyOfChanges"/></returns>
-    public static List<FrequencyOfChanges> Measure(IEnumerable<Revision> revisions)
+    /// <returns><see cref="FrequencyOfChangesMeasurement"/></returns>
+    public static List<FrequencyOfChangesMeasurement> Measure(IEnumerable<Revision> revisions)
     {
         var revisionGroups = revisions.SelectMany(r => r.FileChanges).GroupBy(fc => fc.FilePath)
-            .Select(g => FrequencyOfChanges.From(g.Key, g.Count())).OrderByDescending(r => r.NumberOfChanges).ToList();
+            .Select(g => FrequencyOfChangesMeasurement.From(g.Key, g.Count())).OrderByDescending(r => r.NumberOfChanges).ToList();
 
         return revisionGroups;
     }

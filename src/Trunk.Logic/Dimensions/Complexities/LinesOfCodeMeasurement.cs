@@ -5,7 +5,7 @@ namespace Trunk.Logic.Dimensions.Complexities;
 /// <summary>
 /// Calculates number of code lines
 /// </summary>
-public static class LinesOfCode
+public static class LinesOfCodeMeasurement
 {
     /// <summary>
     /// Measures recursively code lines in files under given path

@@ -6,13 +6,13 @@ using Xunit;
 
 namespace Trunk.Logic.Tests.Dimensions.Complexities;
 
-public class LinesOfCodeTests
+public class LinesOfCodeMeasurementTests
 {
     [Fact]
     public void Count_lines_in_files_in_directory()
     {
         const string dirName = @"./Resources/SubDir";
-        var result = LinesOfCode.Measure(dirName);
+        var result = LinesOfCodeMeasurement.Measure(dirName);
 
         result.Should().NotBeNull();
         result.Should().HaveCount(2);
@@ -26,7 +26,7 @@ public class LinesOfCodeTests
     public void Count_lines_in_files_in_directory_and_subdirectories()
     {
         const string dirName = @"./Resources";
-        var result = LinesOfCode.Measure(dirName);
+        var result = LinesOfCodeMeasurement.Measure(dirName);
 
         result.Should().NotBeNull();
         result.Should().HaveCount(3);
@@ -41,7 +41,7 @@ public class LinesOfCodeTests
     [Fact]
     public void Does_not_count_lines_when_given_directory_not_exists()
     {
-        var act = () => { LinesOfCode.Measure("some_random_path"); };
+        var act = () => { LinesOfCodeMeasurement.Measure("some_random_path"); };
 
         act.Should().Throw<ArgumentOutOfRangeException>();
     }

@@ -7,6 +7,8 @@ namespace Trunk.App.Dimensions.Complexities;
 
 public class MeasureCodeLinesCommand : AsyncCommand<MeasureCodeLinesSettings>
 {
+    private const string OutputFileName = "lines-of-code.csv";
+    
     public override async Task<int> ExecuteAsync(CommandContext context, MeasureCodeLinesSettings settings)
     {
         await AnsiConsole.Status().StartAsync("Measuring...", async ctx =>
@@ -17,7 +19,7 @@ public class MeasureCodeLinesCommand : AsyncCommand<MeasureCodeLinesSettings>
             var codeLinesCollection = LinesOfCodeMeasurement.Measure(settings.RootPath);
             
             ctx.Status("Saving result to output");
-            await settings.OutputFileName.WriteToCsvFile(codeLinesCollection);
+            await OutputFileName.WriteToCsvFile(codeLinesCollection);
         });
 
         return 0;

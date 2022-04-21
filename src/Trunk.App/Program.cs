@@ -19,7 +19,6 @@ app.Configure(config =>
     {
         analyze.AddCommand<AnalyzeHotSpotsCommand>("hot-spots");
     });
-    
 });
 
 return await app.RunAsync(args);

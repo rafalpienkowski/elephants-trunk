@@ -13,11 +13,11 @@ public class AnalyzeHotSpotsSettings : CommandSettings
     /// Path to the repository required for file lines calculation:
     /// </summary>
     [Description("Path to the file contining line of codes measurment")]
-    [CommandArgument(0, "lines of code file path")]
+    [CommandArgument(0, "[lines of code file path]")]
     public string? LinesOfCodeFilePath { get; init; }
     
     [Description("Path to the file containing code frequencies measurment")]
-    [CommandArgument(1, "code frequencies file path")]
+    [CommandArgument(1, "[code frequencies file path]")]
     public string? CodeFrequenciesFilePath { get; init; }
 
     public override ValidationResult Validate()

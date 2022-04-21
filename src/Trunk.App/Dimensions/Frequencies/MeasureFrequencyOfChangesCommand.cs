@@ -9,6 +9,8 @@ namespace Trunk.App.Dimensions.Frequencies;
 
 public class MeasureFrequencyOfChangesCommand : AsyncCommand<MeasureFrequencyOfChangesSettings>
 {
+    private const string OutputFileName = "frequencies.csv";
+    
     public override async Task<int> ExecuteAsync(CommandContext context, MeasureFrequencyOfChangesSettings settings)
     {
         await AnsiConsole.Status().StartAsync("Measuring...", async ctx =>
@@ -22,7 +24,7 @@ public class MeasureFrequencyOfChangesCommand : AsyncCommand<MeasureFrequencyOfC
             var frequencies = ChangesInFileMeasurement.Measure(revisions);
             
             ctx.Status("Saving result to output");
-            await settings.OutputFileName.WriteToCsvFile(frequencies);
+            await OutputFileName.WriteToCsvFile(frequencies);
 
         });
 

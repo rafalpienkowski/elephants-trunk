@@ -1,5 +1,6 @@
 using Spectre.Console;
 using Spectre.Console.Cli;
+using Trunk.App.CsvModels;
 using Trunk.App.Extensions;
 using Trunk.Logic.Dimensions.Complexities;
 using Trunk.Logic.Dimensions.Frequencies;
@@ -19,12 +20,25 @@ public class AnalyzeHotSpotsCommand : AsyncCommand<AnalyzeHotSpotsSettings>
         await AnsiConsole.Status().StartAsync("Thinking...", async ctx =>
         {
             ctx.SetupSpinner();
+            if (string.IsNullOrEmpty(settings.LinesOfCodeFilePath))
+            {
+                throw new ArgumentNullException(nameof(settings.LinesOfCodeFilePath),
+                    "Specify lines of code file path");
+            }
+
+            if (string.IsNullOrEmpty(settings.CodeFrequenciesFilePath))
+            {
+                throw new ArgumentNullException(nameof(settings.CodeFrequenciesFilePath),
+                    "Specify frequencies file path");
+            }
             
             ctx.Status("Loading lines of code file");
-            var lines = settings.LinesOfCodeFilePath.ReadFromCsvFile<CodeLines>().ToList();
+            var lines = settings.LinesOfCodeFilePath.ReadFromCsvFile<CodeLinesModel>().Select(CodeLinesModel.ToEntity).ToList();
             
             ctx.Status("Loading code frequencies file");
-            var revisionFrequency = settings.CodeFrequenciesFilePath.ReadFromCsvFile<FrequencyOfChanges>();
+            var revisionFrequency =
+                settings.CodeFrequenciesFilePath.ReadFromCsvFile<FrequencyOfChangesModel>()
+                    .Select(FrequencyOfChangesModel.ToEntity);
             
             ctx.Status("Analyzing hot spots");
             var combinedComplexities = CalculateCombinedComplexities(revisionFrequency, lines);
@@ -38,7 +52,7 @@ public class AnalyzeHotSpotsCommand : AsyncCommand<AnalyzeHotSpotsSettings>
         return 0;
     }
     
-    private static List<CombinedComplexity> CalculateCombinedComplexities(IEnumerable<FrequencyOfChanges> revisionFrequency, IReadOnlyCollection<CodeLines> lines)
+    private static List<CombinedComplexity> CalculateCombinedComplexities(IEnumerable<FrequencyOfChanges> revisionFrequency, IList<CodeLines> lines)
     {
         var combinedComplexities = (from entityFrequencyGroup in revisionFrequency.GroupBy(rf => rf.Path)
                 where lines.SingleOrDefault(l => l.Path == entityFrequencyGroup.Key) != null

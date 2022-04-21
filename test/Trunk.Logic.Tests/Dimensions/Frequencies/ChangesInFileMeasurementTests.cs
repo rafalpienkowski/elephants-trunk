@@ -14,7 +14,7 @@ public class ChangesInFileMeasurementTests
     {
         var revisions = await RevisionFixture.LoadSampleRevisions();
 
-        var entityFrequencies = ChangesInFile.Measure(revisions);
+        var entityFrequencies = ChangesInFileMeasurement.Measure(revisions);
         
         entityFrequencies.Should().NotBeNull();
 
@@ -26,10 +26,10 @@ public class ChangesInFileMeasurementTests
         AssertEntityFrequency(thirdMostChangedEntity, "README.md", 58);
     }
 
-    private static void AssertEntityFrequency(FrequencyOfChangesMeasurement frequencyOfChangesMeasurement, string entity, int numberOfRevisions)
+    private static void AssertEntityFrequency(FrequencyOfChanges frequencyOfChanges, string entity, int numberOfRevisions)
     {
-        frequencyOfChangesMeasurement.Should().NotBeNull();
-        frequencyOfChangesMeasurement.Path.Should().Be(entity);
-        frequencyOfChangesMeasurement.NumberOfChanges.Should().Be(numberOfRevisions);
+        frequencyOfChanges.Should().NotBeNull();
+        frequencyOfChanges.Path.Should().Be(entity);
+        frequencyOfChanges.NumberOfChanges.Should().Be(numberOfRevisions);
     }
 }

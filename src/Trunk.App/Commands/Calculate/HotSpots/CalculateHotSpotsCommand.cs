@@ -38,7 +38,7 @@ public class CalculateHotSpotsCommand : AsyncCommand<CalculateHotSpotsSettings>
             var revisions = await GitRevisionParser.ParseAsync(streamReader);
 
             ctx.Status("Calculating changes");
-            var revisionFrequency = ChangesInFile.Measure(revisions);
+            var revisionFrequency = ChangesInFileMeasurement.Measure(revisions);
             
             ctx.Status("Counting file lines");
             var lines = LinesOfCodeMeasurement.Measure(settings.RepositoryPath ?? ".");
@@ -55,7 +55,7 @@ public class CalculateHotSpotsCommand : AsyncCommand<CalculateHotSpotsSettings>
         return 0;
     }
 
-    private static List<CombinedComplexity> CalculateCombinedComplexities(List<FrequencyOfChangesMeasurement> revisionFrequency, List<CodeLines> lines)
+    private static List<CombinedComplexity> CalculateCombinedComplexities(List<FrequencyOfChanges> revisionFrequency, List<CodeLines> lines)
     {
         var combinedComplexities = (from entityFrequencyGroup in revisionFrequency.GroupBy(rf => rf.Path)
                 where lines.SingleOrDefault(l => l.Path == entityFrequencyGroup.Key) != null

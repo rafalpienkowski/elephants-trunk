@@ -1,16 +1,20 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using Spectre.Console.Cli;
+﻿using Spectre.Console.Cli;
+using Trunk.App.Dimensions.Complexities;
+using Trunk.App.Dimensions.Frequencies;
 
 var app = new CommandApp();
 app.Configure(config =>
 {
     config.PropagateExceptions();
-    config.AddBranch<CalculateSettings>("calculate", calculate =>
+    config.AddBranch("dimensions", dimensions =>
     {
-        calculate.AddCommand<CalculateHotSpotsCommand>("hotspots")
-            .WithDescription("Calculates hot spots and export them to CSV file");
+        dimensions.AddBranch("measure", measure =>
+        {
+            measure.AddCommand<MeasureCodeLinesCommand>("lines-of-code");
+            measure.AddCommand<MeasureFrequencyOfChangesCommand>("frequency-of-changes");
+        });
     });
+    
 });
 
 return await app.RunAsync(args);

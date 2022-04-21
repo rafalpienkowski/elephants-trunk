@@ -1,4 +1,5 @@
 ﻿using Spectre.Console.Cli;
+using Trunk.App.Analysis.HotSpots;
 using Trunk.App.Dimensions.Complexities;
 using Trunk.App.Dimensions.Frequencies;
 
@@ -13,6 +14,10 @@ app.Configure(config =>
             measure.AddCommand<MeasureCodeLinesCommand>("lines-of-code");
             measure.AddCommand<MeasureFrequencyOfChangesCommand>("frequency-of-changes");
         });
+    });
+    config.AddBranch("analyze", analyze =>
+    {
+        analyze.AddCommand<AnalyzeHotSpotsCommand>("hot-spots");
     });
     
 });

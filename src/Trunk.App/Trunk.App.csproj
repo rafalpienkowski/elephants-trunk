@@ -16,8 +16,4 @@
       <ProjectReference Include="..\Trunk.Logic\Trunk.Logic.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Analysis" />
-    </ItemGroup>
-
 </Project>

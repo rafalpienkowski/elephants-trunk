@@ -12,8 +12,12 @@ public static class LinesOfCodeMeasurement
     /// </summary>
     /// <param name="path">Path to analyze</param>
     /// <returns><see cref="CodeLines"/></returns>
-    public static List<CodeLines> Measure(string path)
+    public static List<CodeLines> Measure(string? path)
     {
+        if (string.IsNullOrEmpty(path))
+        {
+            throw new ArgumentNullException(nameof(path), "Specify path");
+        }
         var files = new List<CodeLines>();
 
         if (!Directory.Exists(path))
@@ -26,8 +30,17 @@ public static class LinesOfCodeMeasurement
         return files;
     }
 
-    private static void CountLines(string path, ICollection<CodeLines> files, string rootPath)
+    private static void CountLines(string? path, ICollection<CodeLines> files, string? rootPath)
     {
+        if (string.IsNullOrEmpty(path))
+        {
+            throw new ArgumentNullException(nameof(path), "Specify path");
+        }
+        if (string.IsNullOrEmpty(rootPath))
+        {
+            throw new ArgumentNullException(nameof(rootPath), "Specify root path");
+        }
+        
         var pathLength = rootPath.Length + 1;
         foreach (var file in Directory.GetFiles(path))
         {

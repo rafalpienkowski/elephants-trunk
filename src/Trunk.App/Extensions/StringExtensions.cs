@@ -5,8 +5,13 @@ namespace Trunk.App.Extensions;
 
 public static class StringExtensions
 {
-    public static async Task WriteToCsvFile<T>(this string fileName, IEnumerable<T> entities)
+    public static async Task WriteToCsvFile<T>(this string? fileName, IEnumerable<T> entities)
     {
+        if (string.IsNullOrEmpty(fileName))
+        {
+            throw new ArgumentNullException(nameof(fileName), "Filename has to be specified");
+        }
+        
         if (File.Exists(fileName))
         {
             File.Delete(fileName);
@@ -17,7 +22,7 @@ public static class StringExtensions
         await csv.WriteRecordsAsync(entities);
     }
 
-    public static IEnumerable<T> ReadFromCsvFile<T>(this string fileName)
+    public static IEnumerable<T> ReadFromCsvFile<T>(this string? fileName)
     {
         if (!File.Exists(fileName))
         {

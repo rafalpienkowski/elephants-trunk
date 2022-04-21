@@ -42,12 +42,7 @@ public class AnalyzeHotSpotsCommand : AsyncCommand<AnalyzeHotSpotsSettings>
     {
         var combinedComplexities = (from entityFrequencyGroup in revisionFrequency.GroupBy(rf => rf.Path)
                 where lines.SingleOrDefault(l => l.Path == entityFrequencyGroup.Key) != null
-                select new CombinedComplexity
-                {
-                    Entity = entityFrequencyGroup.Key,
-                    NumberOfChanges = entityFrequencyGroup.Sum(g => g.NumberOfChanges),
-                    NumberOfLines = lines.Single(l => l.Path == entityFrequencyGroup.Key).Lines
-                })
+                select new CombinedComplexity(entityFrequencyGroup.Key, entityFrequencyGroup.Sum(g => g.NumberOfChanges),lines.Single(l => l.Path == entityFrequencyGroup.Key).Lines))
             .OrderByDescending(cc => cc.NumberOfChanges)
             .ThenByDescending(cc => cc.NumberOfLines)
             .ToList();
@@ -63,7 +58,7 @@ public class AnalyzeHotSpotsCommand : AsyncCommand<AnalyzeHotSpotsSettings>
 
         foreach (var complexity in combinedComplexities)
         {
-            table.AddRow(complexity.Entity, complexity.NumberOfChanges.ToString(), complexity.NumberOfLines.ToString());
+            table.AddRow(complexity.File, complexity.NumberOfChanges.ToString(), complexity.NumberOfLines.ToString());
         }
 
         AnsiConsole.Write(table);
@@ -71,8 +66,15 @@ public class AnalyzeHotSpotsCommand : AsyncCommand<AnalyzeHotSpotsSettings>
 
     private class CombinedComplexity
     {
-        public string Entity { get; set; }
-        public long NumberOfChanges { get; set; }
-        public long NumberOfLines { get; set; }
+        public string File { get; init; }
+        public long NumberOfChanges { get; init; }
+        public long NumberOfLines { get; init; }
+
+        public CombinedComplexity(string file, long numberOfChanges, long numberOfLines)
+        {
+            File = file;
+            NumberOfChanges = numberOfChanges;
+            NumberOfLines = numberOfLines;
+        }
     }
 }

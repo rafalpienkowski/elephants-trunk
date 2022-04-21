@@ -1,20 +1,20 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Trunk.Logic.Analysis;
+using Trunk.Logic.Dimensions.Frequencies;
 using Trunk.Logic.Tests.Fixtures;
 using Xunit;
 
-namespace Trunk.Logic.Tests.Analysis;
+namespace Trunk.Logic.Tests.Dimensions.Frequencies;
 
-public class RevisionsAnalyzerTests
+public class ChangesInFileTests
 {
     [Fact]
     public async Task Should_calculate_entities_frequencies()
     {
         var revisions = await RevisionFixture.LoadSampleRevisions();
 
-        var entityFrequencies = RevisionsAnalyzer.Analyze(revisions);
+        var entityFrequencies = ChangesInFile.Measure(revisions);
         
         entityFrequencies.Should().NotBeNull();
 
@@ -26,10 +26,10 @@ public class RevisionsAnalyzerTests
         AssertEntityFrequency(thirdMostChangedEntity, "README.md", 58);
     }
 
-    private static void AssertEntityFrequency(EntityFrequency frequency, string entity, int numberOfRevisions)
+    private static void AssertEntityFrequency(FrequencyOfChanges frequencyOfChanges, string entity, int numberOfRevisions)
     {
-        frequency.Should().NotBeNull();
-        frequency.Entity.Should().Be(entity);
-        frequency.RevisionNumber.Should().Be(numberOfRevisions);
+        frequencyOfChanges.Should().NotBeNull();
+        frequencyOfChanges.Path.Should().Be(entity);
+        frequencyOfChanges.NumberOfChanges.Should().Be(numberOfRevisions);
     }
 }

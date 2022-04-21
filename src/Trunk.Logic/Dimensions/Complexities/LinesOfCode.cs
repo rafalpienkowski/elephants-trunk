@@ -8,11 +8,11 @@ namespace Trunk.Logic.Dimensions.Complexities;
 public class LinesOfCode
 {
     /// <summary>
-    /// Counts recursively code lines in files under given path
+    /// Measures recursively code lines in files under given path
     /// </summary>
     /// <param name="path">Path to analyze</param>
     /// <returns><see cref="CodeLines"/></returns>
-    public static List<CodeLines> Count(string path)
+    public static List<CodeLines> Measure(string path)
     {
         var files = new List<CodeLines>();
 

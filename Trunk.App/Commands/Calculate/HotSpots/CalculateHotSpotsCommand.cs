@@ -2,6 +2,7 @@ using Spectre.Console;
 using Spectre.Console.Cli;
 using Trunk.Logic.Analysis;
 using Trunk.Logic.Dimensions.Complexities;
+using Trunk.Logic.Dimensions.Frequencies;
 using Trunk.Logic.Loaders;
 using Trunk.Logic.Parsers;
 
@@ -37,10 +38,10 @@ public class CalculateHotSpotsCommand : AsyncCommand<CalculateHotSpotsSettings>
             var revisions = await revisionParser.ParseAsync(streamReader);
 
             ctx.Status("Calculating changes");
-            var revisionFrequency = RevisionsAnalyzer.Analyze(revisions);
+            var revisionFrequency = ChangesInFile.Measure(revisions);
             
             ctx.Status("Counting file lines");
-            var lines = LinesOfCode.Count(settings.RepositoryPath ?? ".");
+            var lines = LinesOfCode.Measure(settings.RepositoryPath ?? ".");
 
             ctx.Status("Calculating combined complexity");
             var combinedComplexities = CalculateCombinedComplexities(revisionFrequency, lines);
@@ -54,14 +55,14 @@ public class CalculateHotSpotsCommand : AsyncCommand<CalculateHotSpotsSettings>
         return 0;
     }
 
-    private static List<CombinedComplexity> CalculateCombinedComplexities(List<EntityFrequency> revisionFrequency, List<CodeLines> lines)
+    private static List<CombinedComplexity> CalculateCombinedComplexities(List<FrequencyOfChanges> revisionFrequency, List<CodeLines> lines)
     {
-        var combinedComplexities = (from entityFrequencyGroup in revisionFrequency.GroupBy(rf => rf.Entity)
+        var combinedComplexities = (from entityFrequencyGroup in revisionFrequency.GroupBy(rf => rf.Path)
                 where lines.SingleOrDefault(l => l.Path == entityFrequencyGroup.Key) != null
                 select new CombinedComplexity
                 {
                     Entity = entityFrequencyGroup.Key,
-                    NumberOfChanges = entityFrequencyGroup.Sum(g => g.RevisionNumber),
+                    NumberOfChanges = entityFrequencyGroup.Sum(g => g.NumberOfChanges),
                     NumberOfLines = lines.Single(l => l.Path == entityFrequencyGroup.Key).Lines
                 })
             .OrderByDescending(cc => cc.NumberOfChanges)

@@ -16,9 +16,15 @@ public class MeasureFrequencyOfChangesCommand : AsyncCommand<MeasureFrequencyOfC
         await AnsiConsole.Status().StartAsync("Measuring...", async ctx =>
         {
             ctx.SetupSpinner();
+
+            var validationResult = settings.Validate();
+            if (!validationResult.Successful)
+            {
+                throw new ArgumentOutOfRangeException(nameof(settings), validationResult.Message);
+            }
             
             ctx.Status("Loading git log file");
-            var revisions = await LoadRevisions(settings);
+            var revisions = await LoadRevisions(settings.GitLogFilePath!);
 
             ctx.Status("Counting file change frequencies");
             var frequencies = ChangesInFileMeasurement.Measure(revisions);
@@ -31,14 +37,9 @@ public class MeasureFrequencyOfChangesCommand : AsyncCommand<MeasureFrequencyOfC
         return 0;
     }
 
-    private static async Task<List<Revision>> LoadRevisions(MeasureFrequencyOfChangesSettings settings)
+    private static async Task<List<Revision>> LoadRevisions(string gitLogFilePath)
     {
-        if (string.IsNullOrEmpty(settings.GitLogFilePath))
-        {
-            throw new ArgumentOutOfRangeException(nameof(settings.GitLogFilePath), "Specify git log file path");
-        }
-            
-        var loader = new FileSourceControlLogLoader(settings.GitLogFilePath);
+        var loader = new FileSourceControlLogLoader(gitLogFilePath);
         using var streamReader = await loader.LoadAsync();
         var revisions = await GitRevisionParser.ParseAsync(streamReader);
         return revisions;

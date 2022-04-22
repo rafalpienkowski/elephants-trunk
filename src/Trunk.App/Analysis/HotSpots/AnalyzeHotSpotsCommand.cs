@@ -20,24 +20,18 @@ public class AnalyzeHotSpotsCommand : AsyncCommand<AnalyzeHotSpotsSettings>
         await AnsiConsole.Status().StartAsync("Thinking...", async ctx =>
         {
             ctx.SetupSpinner();
-            if (string.IsNullOrEmpty(settings.LinesOfCodeFilePath))
+            var validationResult = settings.Validate();
+            if (!validationResult.Successful)
             {
-                throw new ArgumentNullException(nameof(settings.LinesOfCodeFilePath),
-                    "Specify lines of code file path");
-            }
-
-            if (string.IsNullOrEmpty(settings.CodeFrequenciesFilePath))
-            {
-                throw new ArgumentNullException(nameof(settings.CodeFrequenciesFilePath),
-                    "Specify frequencies file path");
+                throw new ArgumentOutOfRangeException(nameof(settings), validationResult.Message);
             }
             
             ctx.Status("Loading lines of code file");
-            var lines = settings.LinesOfCodeFilePath.ReadFromCsvFile<CodeLinesModel>().Select(CodeLinesModel.ToEntity).ToList();
+            var lines = settings.LinesOfCodeFilePath!.ReadFromCsvFile<CodeLinesModel>().Select(CodeLinesModel.ToEntity).ToList();
             
             ctx.Status("Loading code frequencies file");
             var revisionFrequency =
-                settings.CodeFrequenciesFilePath.ReadFromCsvFile<FrequencyOfChangesModel>()
+                settings.CodeFrequenciesFilePath!.ReadFromCsvFile<FrequencyOfChangesModel>()
                     .Select(FrequencyOfChangesModel.ToEntity);
             
             ctx.Status("Analyzing hot spots");

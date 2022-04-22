@@ -1,5 +1,6 @@
 ﻿using Spectre.Console.Cli;
 using Trunk.App.Analysis.HotSpots;
+using Trunk.App.Analysis.WordMaps;
 using Trunk.App.Dimensions.Complexities;
 using Trunk.App.Dimensions.Frequencies;
 
@@ -18,6 +19,7 @@ app.Configure(config =>
     config.AddBranch("analyze", analyze =>
     {
         analyze.AddCommand<AnalyzeHotSpotsCommand>("hot-spots");
+        analyze.AddCommand<AnalyzeWordMapCommand>("word-map");
     });
 });
 

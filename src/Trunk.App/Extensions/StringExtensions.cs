@@ -17,6 +17,7 @@ public static class StringExtensions
         await csv.WriteRecordsAsync(entities);
     }
 
+
     public static IList<T> ReadFromCsvFile<T>(this string fileName)
     {
         using var sr = new StreamReader(fileName);

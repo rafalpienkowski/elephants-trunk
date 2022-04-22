@@ -1,7 +1,5 @@
 using Spectre.Console;
 using Spectre.Console.Cli;
-using Trunk.App.CsvModels;
-using Trunk.App.Dimensions.Frequencies;
 using Trunk.App.Extensions;
 using Trunk.Logic.Loaders;
 using Trunk.Logic.Parsers;
@@ -29,10 +27,12 @@ public class AnalyzeWordMapCommand : AsyncCommand<AnalyzeWordMapSettings>
             ctx.Status("Wrapping words");
             var commitMessages = revisions.Select(r => r.Message);
 
-            await OutputFileName.WriteToCsvFile(commitMessages);
-
+            await WriteToFile(OutputFileName, commitMessages.ToList());
         });
 
+        AnsiConsole.MarkupLine($"Analyze finished. Results exported to: '{OutputFileName}'");
+        AnsiConsole.MarkupLine("Generate our own word map with: [underline blue]https://monkeylearn.com/word-cloud/[/]");
+        
         return 0;
     }
 
@@ -42,5 +42,19 @@ public class AnalyzeWordMapCommand : AsyncCommand<AnalyzeWordMapSettings>
         using var streamReader = await loader.LoadAsync();
         var revisions = await GitRevisionParser.ParseAsync(streamReader);
         return revisions;
+    }
+
+    private static async Task WriteToFile(string fileName, IEnumerable<string> values)
+    {
+        if (File.Exists(fileName))
+        {
+            File.Delete(fileName);
+        }
+
+        await using var sw = new StreamWriter(fileName);
+        foreach (var value in values)
+        {
+            await sw.WriteLineAsync(value);
+        }
     }
 }

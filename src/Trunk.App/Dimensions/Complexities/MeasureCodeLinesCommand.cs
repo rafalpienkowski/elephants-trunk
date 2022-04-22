@@ -21,6 +21,8 @@ public class MeasureCodeLinesCommand : AsyncCommand<MeasureCodeLinesSettings>
             ctx.Status("Saving result to output");
             await OutputFileName.WriteToCsvFile(codeLinesCollection);
         });
+        
+        AnsiConsole.Write($"Measurement finished. Results exported to: '{OutputFileName}'");
 
         return 0;
     }

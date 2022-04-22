@@ -31,8 +31,9 @@ public class MeasureFrequencyOfChangesCommand : AsyncCommand<MeasureFrequencyOfC
             
             ctx.Status("Saving result to output");
             await OutputFileName.WriteToCsvFile(frequencies);
-
         });
+        
+        AnsiConsole.Write($"Measurement finished. Results exported to: '{OutputFileName}'");
 
         return 0;
     }

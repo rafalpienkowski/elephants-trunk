@@ -43,6 +43,7 @@ public class AnalyzeHotSpotsCommand : AsyncCommand<AnalyzeHotSpotsSettings>
             PrintTop10ComplexFiles(combinedComplexities.Take(10).ToList());
         });
 
+        AnsiConsole.Write($"Analyze finished. Results exported to: '{OutputFileName}'");
         return 0;
     }
     

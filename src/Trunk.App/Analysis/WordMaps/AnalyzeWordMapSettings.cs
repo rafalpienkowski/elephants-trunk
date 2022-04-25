@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using Spectre.Console;
 using Spectre.Console.Cli;
+using Trunk.App.Extensions;
 
 namespace Trunk.App.Analysis.WordMaps;
 
@@ -13,16 +14,6 @@ public class AnalyzeWordMapSettings : CommandSettings
 
     public override ValidationResult Validate()
     {
-        if (string.IsNullOrEmpty(GitLogFilePath))
-        {
-            return ValidationResult.Error("Specify git log file path");
-        }
-
-        if (!File.Exists(GitLogFilePath))
-        {
-            return ValidationResult.Error($"File: '{GitLogFilePath}' does not exist");
-        }
-        
-        return ValidationResult.Success();
+        return GitLogFilePath.ValidateFileArgument(nameof(GitLogFilePath));
     }
 }

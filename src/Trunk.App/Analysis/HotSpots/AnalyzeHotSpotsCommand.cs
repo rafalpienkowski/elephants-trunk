@@ -35,30 +35,30 @@ public class AnalyzeHotSpotsCommand : AsyncCommand<AnalyzeHotSpotsSettings>
                     .Select(FrequencyOfChangesModel.ToEntity);
             
             ctx.Status("Analyzing hot spots");
-            var combinedComplexities = CalculateCombinedComplexities(revisionFrequency, lines);
+            var combinedComplexities = CalculateHotSpots(revisionFrequency, lines);
 
             ctx.Status("Saving results");
             await OutputFileName.WriteToCsvFile(combinedComplexities);
             
-            PrintTop10ComplexFiles(combinedComplexities.Take(10).ToList());
+            PrintTop10HotSpotFiles(combinedComplexities.Take(10).ToList());
         });
 
         AnsiConsole.Write($"Analyze finished. Results exported to: '{OutputFileName}'");
         return 0;
     }
     
-    private static List<CombinedComplexity> CalculateCombinedComplexities(IEnumerable<FrequencyOfChanges> revisionFrequency, IList<CodeLines> lines)
+    private static List<HotSpot> CalculateHotSpots(IEnumerable<FrequencyOfChanges> revisionFrequency, IList<CodeLines> lines)
     {
         var combinedComplexities = (from entityFrequencyGroup in revisionFrequency.GroupBy(rf => rf.Path)
                 where lines.SingleOrDefault(l => l.Path == entityFrequencyGroup.Key) != null
-                select new CombinedComplexity(entityFrequencyGroup.Key, entityFrequencyGroup.Sum(g => g.NumberOfChanges),lines.Single(l => l.Path == entityFrequencyGroup.Key).Lines))
+                select new HotSpot(entityFrequencyGroup.Key, entityFrequencyGroup.Sum(g => g.NumberOfChanges),lines.Single(l => l.Path == entityFrequencyGroup.Key).Lines))
             .OrderByDescending(cc => cc.NumberOfChanges)
             .ThenByDescending(cc => cc.NumberOfLines)
             .ToList();
         return combinedComplexities;
     }
 
-    private static void PrintTop10ComplexFiles(IEnumerable<CombinedComplexity> combinedComplexities)
+    private static void PrintTop10HotSpotFiles(IEnumerable<HotSpot> combinedComplexities)
     {
         var table = new Table();
         table.AddColumn("Entity");
@@ -73,13 +73,13 @@ public class AnalyzeHotSpotsCommand : AsyncCommand<AnalyzeHotSpotsSettings>
         AnsiConsole.Write(table);
     }
 
-    private class CombinedComplexity
+    private class HotSpot
     {
         public string File { get; init; }
         public long NumberOfChanges { get; init; }
         public long NumberOfLines { get; init; }
 
-        public CombinedComplexity(string file, long numberOfChanges, long numberOfLines)
+        public HotSpot(string file, long numberOfChanges, long numberOfLines)
         {
             File = file;
             NumberOfChanges = numberOfChanges;

@@ -2,8 +2,7 @@ using Spectre.Console;
 using Spectre.Console.Cli;
 using Trunk.App.CsvModels;
 using Trunk.App.Extensions;
-using Trunk.Logic.Dimensions.Complexities;
-using Trunk.Logic.Dimensions.Frequencies;
+using Trunk.Logic.Analysis;
 
 namespace Trunk.App.Analysis.HotSpots;
 
@@ -35,7 +34,7 @@ public class AnalyzeHotSpotsCommand : AsyncCommand<AnalyzeHotSpotsSettings>
                     .Select(FrequencyOfChangesModel.ToEntity);
             
             ctx.Status("Analyzing hot spots");
-            var combinedComplexities = CalculateHotSpots(revisionFrequency, lines);
+            var combinedComplexities = HotSpotsAnalyzer.CalculateHotSpots(revisionFrequency, lines);
 
             ctx.Status("Saving results");
             await OutputFileName.WriteToCsvFile(combinedComplexities);
@@ -47,17 +46,6 @@ public class AnalyzeHotSpotsCommand : AsyncCommand<AnalyzeHotSpotsSettings>
         return 0;
     }
     
-    private static List<HotSpot> CalculateHotSpots(IEnumerable<FrequencyOfChanges> revisionFrequency, IList<CodeLines> lines)
-    {
-        var combinedComplexities = (from entityFrequencyGroup in revisionFrequency.GroupBy(rf => rf.Path)
-                where lines.SingleOrDefault(l => l.Path == entityFrequencyGroup.Key) != null
-                select new HotSpot(entityFrequencyGroup.Key, entityFrequencyGroup.Sum(g => g.NumberOfChanges),lines.Single(l => l.Path == entityFrequencyGroup.Key).Lines))
-            .OrderByDescending(cc => cc.NumberOfChanges)
-            .ThenByDescending(cc => cc.NumberOfLines)
-            .ToList();
-        return combinedComplexities;
-    }
-
     private static void PrintTop10HotSpotFiles(IEnumerable<HotSpot> combinedComplexities)
     {
         var table = new Table();
@@ -73,17 +61,4 @@ public class AnalyzeHotSpotsCommand : AsyncCommand<AnalyzeHotSpotsSettings>
         AnsiConsole.Write(table);
     }
 
-    private class HotSpot
-    {
-        public string File { get; init; }
-        public long NumberOfChanges { get; init; }
-        public long NumberOfLines { get; init; }
-
-        public HotSpot(string file, long numberOfChanges, long numberOfLines)
-        {
-            File = file;
-            NumberOfChanges = numberOfChanges;
-            NumberOfLines = numberOfLines;
-        }
-    }
 }

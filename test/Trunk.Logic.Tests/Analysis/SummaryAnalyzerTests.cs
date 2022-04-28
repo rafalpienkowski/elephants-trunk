@@ -8,8 +8,6 @@ namespace Trunk.Logic.Tests.Analysis;
 
 public class SummaryAnalyzerTests
 {
-    private readonly SummaryAnalyzer _sut = new();
-
     [Fact]
     public async Task Should_calculate_summary_statistics_based_on_revisions()
     {

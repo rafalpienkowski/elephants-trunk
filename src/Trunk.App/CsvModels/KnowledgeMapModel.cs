@@ -8,5 +8,5 @@ public class KnowledgeMapModel
     public string Author { get; set; } = null!;
     public long NumberOfLines { get; set; }
 
-    public static KnowledgeMap ToEntity(KnowledgeMapModel model) => new(model.File, model.Author, model.NumberOfLines);
+    public static KnowledgeNode ToEntity(KnowledgeMapModel model) => new(model.File, model.Author, model.NumberOfLines);
 }

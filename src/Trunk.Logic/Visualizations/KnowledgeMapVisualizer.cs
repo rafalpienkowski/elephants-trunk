@@ -21,7 +21,7 @@ public static class KnowledgeMapVisualizer
         "aqua"
     };
     
-    public static (KnowledgeMapNode, KeyValuePair<string,string>[]) TransformData(List<KnowledgeMap> knowledgeMap)
+    public static (KnowledgeMapNode, KeyValuePair<string,string>[]) TransformData(List<KnowledgeNode> knowledgeMap)
     {
         var root = new KnowledgeMapNode
         {
@@ -34,7 +34,7 @@ public static class KnowledgeMapVisualizer
 
         foreach (var knowledgeNode in knowledgeMap)
         {
-            var modules = knowledgeNode.File.Split('/');
+            var modules = knowledgeNode.Directory.Split('/');
             var node = new KnowledgeMapLeaf
             {
                 Name = modules.Last(),

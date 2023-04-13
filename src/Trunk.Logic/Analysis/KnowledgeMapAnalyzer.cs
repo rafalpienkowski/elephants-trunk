@@ -5,21 +5,46 @@ namespace Trunk.Logic.Analysis;
 
 public static class KnowledgeMapAnalyzer
 {
-    public static List<KnowledgeMap> CalculateHotSpots(List<AuthorsCodeLinesAdded> authorsCodeLinesAdded)
+    public static List<KnowledgeNode> CalculateKnowledgeMap(List<AuthorsCodeLinesAdded> authorsCodeLinesAdded)
     {
-        return new List<KnowledgeMap>();
+        var knowledgeMapList = new List<KnowledgeNode>();
+        foreach (var codeLinesAdded in authorsCodeLinesAdded)
+        {
+            foreach (var codeAddedToDir in codeLinesAdded.CodeAddedToDirs)
+            {
+                var knowledgeMap = knowledgeMapList.SingleOrDefault(km => km.Directory == codeAddedToDir.Path);
+                if (knowledgeMap == null)
+                {
+                    knowledgeMapList.Add(new KnowledgeNode(codeAddedToDir.Path, codeLinesAdded.Author, codeAddedToDir.NumberOfLinesAdded));
+                    continue;
+                }
+
+                if (knowledgeMap.Author == codeLinesAdded.Author)
+                {
+                    continue;
+                }
+
+                if (knowledgeMap.NumberOfLines < codeAddedToDir.NumberOfLinesAdded)
+                {
+                    knowledgeMapList.Remove(knowledgeMap);
+                    knowledgeMapList.Add(new KnowledgeNode(codeAddedToDir.Path, codeLinesAdded.Author, codeAddedToDir.NumberOfLinesAdded));
+                }
+            }
+        }
+        
+        return knowledgeMapList;
     }
 }
 
-public class KnowledgeMap
+public class KnowledgeNode
 {
-    public string File { get; } 
+    public string Directory { get; } 
     public string Author { get; } 
     public long NumberOfLines { get;}
 
-    public KnowledgeMap(string file, string author, long numberOfLines)
+    public KnowledgeNode(string directory, string author, long numberOfLines)
     {
-        File = file;
+        Directory = directory;
         Author = author;
         NumberOfLines = numberOfLines;
     }

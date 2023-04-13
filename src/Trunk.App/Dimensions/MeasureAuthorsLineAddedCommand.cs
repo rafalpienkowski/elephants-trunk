@@ -23,7 +23,7 @@ public class MeasureAuthorsLineAddedSettings : CommandSettings
 
 public class MeasureAuthorsLineAddedCommand : AsyncCommand<MeasureAuthorsLineAddedSettings>
 {
-    private const string OutputFileName = "files-changed-by-author.csv";
+    private const string OutputFileName = "lines-added-by-author.csv";
     
     public override async Task<int> ExecuteAsync(CommandContext context, MeasureAuthorsLineAddedSettings settings)
     {
@@ -40,7 +40,7 @@ public class MeasureAuthorsLineAddedCommand : AsyncCommand<MeasureAuthorsLineAdd
             ctx.Status("Loading git log file");
             var revisions = await LoadRevisions(settings.GitLogFilePath!);
 
-            ctx.Status("Counting file lines changed by author");
+            ctx.Status("Counting file lines added by author");
             var measure = AuthorsCodeLinesAddedMeasurement.Measure(revisions);
 
             var model = ToKnowledgeNodeModel(measure);
@@ -54,11 +54,11 @@ public class MeasureAuthorsLineAddedCommand : AsyncCommand<MeasureAuthorsLineAdd
         return 0;
     }
 
-    private static IEnumerable<KnowledgeNodeModel> ToKnowledgeNodeModel(List<AuthorsCodeLinesAdded> authors)
+    private static IEnumerable<LinesAddedByAuthorModel> ToKnowledgeNodeModel(List<AuthorsCodeLinesAdded> authors)
     {
         return (from authorsCodeLinesAdded in authors
             from directoryCodeLinesAdded in authorsCodeLinesAdded.CodeAddedToDirs
-            select new KnowledgeNodeModel
+            select new LinesAddedByAuthorModel
             {
                 Author = authorsCodeLinesAdded.Author, 
                 Directory = directoryCodeLinesAdded.Path, 

@@ -20,6 +20,7 @@ app.Configure(config =>
     {
         analyze.AddCommand<AnalyzeHotSpotsCommand>("hot-spots");
         analyze.AddCommand<AnalyzeWordMapCommand>("word-map");
+        analyze.AddCommand<AnalyzeKnowledgeMapCommand>("knowledge-map");
     });
     
     config.AddBranch("visualize", visualizations =>

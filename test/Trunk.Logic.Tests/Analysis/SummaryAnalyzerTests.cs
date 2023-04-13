@@ -18,7 +18,7 @@ public class SummaryAnalyzerTests
         revisionSummary.Should().NotBeNull();
 
         revisionSummary.NumberOfCommits.Should().Be(315);
-        revisionSummary.NumberOfEntities.Should().Be(104);
+        revisionSummary.NumberOfEntities.Should().Be(102);
         revisionSummary.NumberOfEntitiesChanged.Should().Be(766);
         revisionSummary.NumberOfAuthors.Should().Be(22);
     }

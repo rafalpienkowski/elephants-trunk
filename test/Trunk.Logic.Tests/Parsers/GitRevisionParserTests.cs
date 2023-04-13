@@ -35,6 +35,16 @@ public class GitRevisionParserTests
 1	1	src/code_maat/parsers/limitters.clj
 5	5	src/code_maat/parsers/tfs.clj
 1	1	src/code_maat/test/data_driven.clj";
+
+    private const string FileRename =
+        @"[cfe0bf575] Oskar Dudycz 2022-08-05 Defined first version of public API for Upcasters
+8	0	src/Marten/Events/EventGraph.cs
+33	0	src/Marten/Services/Json/Transformations/EventUpcaster.cs
+30	37	src/Marten/Services/Json/{JsonTransformationSerializerWrapper.cs => Transformations/JsonTransformations.cs}
+65	0	src/Marten/Services/Json/Transformations/SystemTextJson/SystemTextJsonUpcasters.cs
+26	1	src/Marten/Services/SystemTextJsonSerializer.cs
+6	3	src/Marten/StoreOptions.cs
+5	0	src/Marten/Util/SharedBuffer.cs";
     
     [Fact]
     public async Task Should_parse_single_revision_with_multiple_file_changes()
@@ -68,6 +78,20 @@ public class GitRevisionParserTests
         var firstRevision = revisions.First();
         AssertRevisionWithoutFileChange(firstRevision, "Adam Tornhill",
             "#57 The messages analysis is not supported for git2", new DateTime(2020, 12, 29, 0, 0, 0), 4);
+    }
+
+    [Fact]
+    public async Task Should_parse_rename_file()
+    {
+        var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(FileRename));
+        var streamReader = new StreamReader(memoryStream);
+        
+        var revisions = await GitRevisionParser.ParseAsync(streamReader);
+        
+        revisions.Should().NotBeNull();
+        revisions.Should().HaveCount(1);
+        revisions[0].FileChanges[2].FilePath.Should()
+            .Be("src/Marten/Services/Json/Transformations/JsonTransformations.cs");
     }
 
     private static void AssertRevisionWithoutFileChange(Revision revision, string author, string message,

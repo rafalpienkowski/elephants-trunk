@@ -15,7 +15,7 @@ public class FileChange
     {
         LinesAdded = linesAdded;
         LinesRemoved = linesRemoved;
-        FilePath = filePath;
+        FilePath = Normalize(filePath);
     }
 
     public static FileChange From(Match match) =>
@@ -24,4 +24,18 @@ public class FileChange
             match.Groups[3].Value.Trim());
 
     private static bool IsEmptyChange(string change) => change.Equals("-");
+
+    private static string Normalize(string filePath)
+    {
+        if (!FileWasRenamed(filePath))
+        {
+            return filePath;
+        }
+
+        var orgPart = filePath.Substring(0, filePath.IndexOf('{'));
+        var normalized = filePath[(filePath.IndexOf(">", StringComparison.Ordinal) + 2)..];
+        return $"{orgPart}{normalized.TrimEnd('}')}";
+    }
+
+    private static bool FileWasRenamed(string filePath) => filePath.Contains('{');
 }

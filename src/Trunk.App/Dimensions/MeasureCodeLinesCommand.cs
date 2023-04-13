@@ -4,7 +4,7 @@ using Spectre.Console.Cli;
 using Trunk.App.Extensions;
 using Trunk.Logic.Dimensions.Complexities;
 
-namespace Trunk.App.Dimensions.Complexities;
+namespace Trunk.App.Dimensions;
 
 public class MeasureCodeLinesSettings : CommandSettings
 {

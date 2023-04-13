@@ -1,8 +1,7 @@
 ﻿using Spectre.Console.Cli;
 using Trunk.App.Analysis.HotSpots;
 using Trunk.App.Analysis.WordMaps;
-using Trunk.App.Dimensions.Complexities;
-using Trunk.App.Dimensions.Frequencies;
+using Trunk.App.Dimensions;
 using Trunk.App.Visualisations.D3s;
 
 var app = new CommandApp();

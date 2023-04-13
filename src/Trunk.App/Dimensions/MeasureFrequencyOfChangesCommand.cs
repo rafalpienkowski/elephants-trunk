@@ -6,7 +6,7 @@ using Trunk.Logic.Dimensions.Frequencies;
 using Trunk.Logic.Loaders;
 using Trunk.Logic.Parsers;
 
-namespace Trunk.App.Dimensions.Frequencies;
+namespace Trunk.App.Dimensions;
 
 public class MeasureFrequencyOfChangesSettings : CommandSettings
 {

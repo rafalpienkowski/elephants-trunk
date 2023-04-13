@@ -7,7 +7,7 @@ using Trunk.Logic.Visualizations;
 
 namespace Trunk.App.Visualisations.D3s;
 
-public class CreateD3DiagramSettings : CommandSettings
+public class CreateHotSpotDiagramSettings : CommandSettings
 {
     /// <summary>
     /// Path to the repository required for file lines calculation:
@@ -22,11 +22,11 @@ public class CreateD3DiagramSettings : CommandSettings
     }
 }
 
-public class CreateD3DiagramCommand : AsyncCommand<CreateD3DiagramSettings>
+public class CreateHotSpotDiagramCommand : AsyncCommand<CreateHotSpotDiagramSettings>
 {
     private const string OutputFileName = "hotspot_proto.json";
     
-    public override async Task<int> ExecuteAsync(CommandContext context, CreateD3DiagramSettings settings)
+    public override async Task<int> ExecuteAsync(CommandContext context, CreateHotSpotDiagramSettings settings)
     {
         await AnsiConsole.Status().StartAsync("Measuring...", async ctx =>
         {

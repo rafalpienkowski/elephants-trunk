@@ -11,7 +11,6 @@ namespace Trunk.Logic.Tests.Parsers;
 
 public class GitRevisionParserTests
 {
-    private readonly GitRevisionParser _gitRevisionParser = new();
     private const string SingleRevision = @"[c41a1ae] Adam Tornhill 2020-12-29 Remove dead code such as earlier prototypes
 1	14	src/code_maat/analysis/authors.clj
 0	47	src/code_maat/parsers/limitters.clj";
@@ -47,7 +46,7 @@ public class GitRevisionParserTests
         revisions.Should().NotBeNull();
         revisions.Should().HaveCount(1);
         var firstRevision = revisions.First();
-        AssertRevisionWithhoutFileChange(firstRevision, "Adam Tornhill", "Remove dead code such as earlier prototypes",
+        AssertRevisionWithoutFileChange(firstRevision, "Adam Tornhill", "Remove dead code such as earlier prototypes",
             new DateTime(2020, 12, 29, 0, 0, 0), 2);
 
         var firstFileChange = firstRevision.FileChanges.First();
@@ -67,11 +66,11 @@ public class GitRevisionParserTests
         revisions.Should().HaveCount(3);
 
         var firstRevision = revisions.First();
-        AssertRevisionWithhoutFileChange(firstRevision, "Adam Tornhill",
+        AssertRevisionWithoutFileChange(firstRevision, "Adam Tornhill",
             "#57 The messages analysis is not supported for git2", new DateTime(2020, 12, 29, 0, 0, 0), 4);
     }
 
-    private static void AssertRevisionWithhoutFileChange(Revision revision, string author, string message,
+    private static void AssertRevisionWithoutFileChange(Revision revision, string author, string message,
         DateTime date, int fileChanges)
     {
         revision.Should().NotBeNull();

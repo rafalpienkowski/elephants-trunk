@@ -1,3 +1,5 @@
+using System.Runtime.ExceptionServices;
+
 namespace Trunk.Logic.Dimensions.Frequencies;
 
 /// <summary>

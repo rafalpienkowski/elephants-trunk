@@ -1,10 +1,24 @@
+using System.ComponentModel;
 using Spectre.Console;
 using Spectre.Console.Cli;
 using Trunk.App.Extensions;
 using Trunk.Logic.Loaders;
 using Trunk.Logic.Parsers;
 
-namespace Trunk.App.Analysis.WordMaps;
+namespace Trunk.App.Analysis;
+
+public class AnalyzeWordMapSettings : CommandSettings
+{
+    [Description(
+        "Specifies path to the git log file produced by this git command: 'git log --pretty=format:'[%h] %an %ad %s' --date=short --numstat --no-merges'")]
+    [CommandArgument(0, "[git-log-file-path]")]
+    public string GitLogFilePath { get; set; } = null!;
+
+    public override ValidationResult Validate()
+    {
+        return GitLogFilePath.ValidateFileArgument(nameof(GitLogFilePath));
+    }
+}
 
 public class AnalyzeWordMapCommand : AsyncCommand<AnalyzeWordMapSettings>
 {

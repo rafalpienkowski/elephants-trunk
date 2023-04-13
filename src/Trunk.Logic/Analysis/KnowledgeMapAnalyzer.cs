@@ -1,4 +1,15 @@
+using Trunk.Logic.Dimensions.Frequencies;
+
 namespace Trunk.Logic.Analysis;
+
+
+public static class KnowledgeMapAnalyzer
+{
+    public static List<KnowledgeMap> CalculateHotSpots(List<AuthorsCodeLinesAdded> authorsCodeLinesAdded)
+    {
+        return new List<KnowledgeMap>();
+    }
+}
 
 public class KnowledgeMap
 {

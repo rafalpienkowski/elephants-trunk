@@ -18,7 +18,13 @@ public static class KnowledgeMapVisualizer
         "navy",
         "blue",
         "teal",
-        "aqua"
+        "aqua",
+        "coral",
+        "darkgreen",
+        "indigo",
+        "lightpink",
+        "mistyrose",
+        "sienna"
     };
     
     public static (KnowledgeMapNode, KeyValuePair<string,string>[]) TransformData(List<KnowledgeNode> knowledgeMap)

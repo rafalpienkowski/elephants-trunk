@@ -1,6 +1,6 @@
 using Trunk.Logic.Analysis;
 
-namespace Trunk.Logic.Visualizations.HotSpots;
+namespace Trunk.Logic.Visualizations;
 
 public static class HotSpotsVisualizer
 {

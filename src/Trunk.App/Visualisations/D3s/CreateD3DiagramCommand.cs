@@ -2,7 +2,7 @@ using Spectre.Console;
 using Spectre.Console.Cli;
 using Trunk.App.CsvModels;
 using Trunk.App.Extensions;
-using Trunk.Logic.Visualizations.HotSpots;
+using Trunk.Logic.Visualizations;
 
 namespace Trunk.App.Visualisations.D3s;
 

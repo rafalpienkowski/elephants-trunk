@@ -42,16 +42,26 @@ public static class KnowledgeMapVisualizer
                 Author = knowledgeNode.Author,
                 Color = authorColorsMap[knowledgeNode.Author],
             };
-            //Adding an extra child node is a workaround for zooming in D3
-            node.Children.Add(new KnowledgeMapLeaf
+            
+            var currentNode = root;
+            for (var i = 0; i < modules.Length - 1; i++)
             {
-                Name = modules.Last(),
-                Size = knowledgeNode.NumberOfLines.ToString(),
-                Author = knowledgeNode.Author,
-                Color = authorColorsMap[knowledgeNode.Author],
-            });
+                var child = currentNode.Children.FirstOrDefault(n => n.Name == modules[i]);
+                if (child != null)
+                {
+                    currentNode = child;
+                    continue;
+                }
 
-            root.Children.Add(node);
+                var newNode = new KnowledgeMapNode
+                {
+                    Name = modules[i]
+                };
+                currentNode.Children.Add(newNode);
+                currentNode = newNode;
+            }
+            
+            currentNode.Children.Add(node);
         }
 
         return (root, authorColorsMap.ToArray());

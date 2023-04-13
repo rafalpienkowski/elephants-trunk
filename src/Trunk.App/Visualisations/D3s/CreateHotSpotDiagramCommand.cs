@@ -10,7 +10,7 @@ namespace Trunk.App.Visualisations.D3s;
 public class CreateHotSpotDiagramSettings : CommandSettings
 {
     /// <summary>
-    /// Path to the repository required for file lines calculation:
+    /// Path to the hot spot analysis result file:
     /// </summary>
     [Description("Path to the file containing hot spots analyze results")]
     [CommandArgument(0, "[hot spots file path]")]
@@ -48,7 +48,7 @@ public class CreateHotSpotDiagramCommand : AsyncCommand<CreateHotSpotDiagramSett
             await OutputFileName.WriteToJsonFile(results);
         });
 
-        AnsiConsole.Write($"Analyze finished. Results exported to: '{OutputFileName}'");
+        AnsiConsole.WriteLine($"Visualisation finished. Results exported to: '{OutputFileName}'");
         return 0;
     }
 }

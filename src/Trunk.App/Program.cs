@@ -26,6 +26,7 @@ app.Configure(config =>
     config.AddBranch("visualize", visualizations =>
     {
         visualizations.AddCommand<CreateHotSpotDiagramCommand>("d3-hotspots");
+        visualizations.AddCommand<CreateKnowledgeMapDiagramCommand>("d3-knowledgemap");
     });
 });
 

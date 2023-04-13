@@ -4,9 +4,9 @@ namespace Trunk.Logic.Visualizations;
 
 public static class HotSpotsVisualizer
 {
-    public static Node TransformData(List<HotSpot> hotSpotModels)
+    public static HotSpotNode TransformData(List<HotSpot> hotSpotModels)
     {
-        var root = new Node
+        var root = new HotSpotNode
         {
             Name = "root"
         };
@@ -15,7 +15,7 @@ public static class HotSpotsVisualizer
         foreach (var hotSpotModel in hotSpotModels)
         {
             var modules = hotSpotModel.File.Split('/');
-            var node = new Leaf
+            var node = new HotSpotLeaf
             {
                 Name = modules.Last(),
                 Size = hotSpotModel.NumberOfLines.ToString(),
@@ -32,7 +32,7 @@ public static class HotSpotsVisualizer
                     continue;
                 }
 
-                var newNode = new Node
+                var newNode = new HotSpotNode
                 {
                     Name = modules[i]
                 };
@@ -50,16 +50,16 @@ public static class HotSpotsVisualizer
 /// <summary>
 /// Represents a node used for D3 visualization library
 /// </summary>
-public class Node
+public class HotSpotNode
 {
     public string Name { get; set; } = null!;
-    public List<Node> Children { get; set; } = new();
+    public List<HotSpotNode> Children { get; set; } = new();
 }
 
 /// <summary>
 /// Represents a leaf used for D3 visualization library
 /// </summary>
-public class Leaf : Node
+public class HotSpotLeaf : HotSpotNode
 {
     /// <summary>
     /// Number of lines

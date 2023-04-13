@@ -6,6 +6,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trunk.Logic.Tests", "test\T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trunk.App", "src\Trunk.App\Trunk.App.csproj", "{C9D983A4-156C-4224-8511-446140A0836D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{9E259FEE-7FCA-4E9A-AC90-E13ACB5D77ED}"
+	ProjectSection(SolutionItems) = preProject
+		run.sh = run.sh
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

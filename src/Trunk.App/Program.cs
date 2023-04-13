@@ -13,6 +13,7 @@ app.Configure(config =>
         {
             measure.AddCommand<MeasureCodeLinesCommand>("lines-of-code");
             measure.AddCommand<MeasureFrequencyOfChangesCommand>("frequency-of-changes");
+            measure.AddCommand<MeasureAuthorsLineAddedCommand>("lines-added-by-author");
         });
     });
     config.AddBranch("analyze", analyze =>

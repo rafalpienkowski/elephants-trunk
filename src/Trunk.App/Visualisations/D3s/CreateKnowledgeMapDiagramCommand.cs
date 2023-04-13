@@ -40,7 +40,7 @@ public class CreateKnowledgeMapDiagramCommand : AsyncCommand<CreateKnowledgeMapD
             }
             
             ctx.Status("Loading knowledge map file");
-            var knowledgeMap = settings.KnowledgeMapFilePath!.ReadFromCsvFile<KnowledgeMapModel>().Select(KnowledgeMapModel.ToEntity).ToList();
+            var knowledgeMap = settings.KnowledgeMapFilePath!.ReadFromCsvFile<KnowledgeNodeModel>().Select(KnowledgeNodeModel.ToEntity).ToList();
 
             ctx.Status("Transforming data");
             var results = KnowledgeMapVisualizer.TransformData(knowledgeMap);

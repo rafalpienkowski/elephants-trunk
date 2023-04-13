@@ -23,7 +23,6 @@ public static class ChangesInFileMeasurement
 
 public static class AuthorsCodeLinesAddedMeasurement
 {
-
     public static List<AuthorsCodeLinesAdded> Measure(IEnumerable<Revision> revisions)
     {
         var authorGroups = revisions

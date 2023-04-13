@@ -42,6 +42,7 @@ public static class KnowledgeMapVisualizer
                 Author = knowledgeNode.Author,
                 Color = authorColorsMap[knowledgeNode.Author],
             };
+            //Adding an extra child node is a workaround for zooming in D3
             node.Children.Add(new KnowledgeMapLeaf
             {
                 Name = modules.Last(),

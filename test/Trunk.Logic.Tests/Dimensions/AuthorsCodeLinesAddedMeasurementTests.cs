@@ -5,7 +5,7 @@ using Trunk.Logic.Dimensions.Frequencies;
 using Trunk.Logic.Tests.Fixtures;
 using Xunit;
 
-namespace Trunk.Logic.Tests.Dimensions.Frequencies;
+namespace Trunk.Logic.Tests.Dimensions;
 
 public class AuthorsCodeLinesAddedMeasurementTests
 {

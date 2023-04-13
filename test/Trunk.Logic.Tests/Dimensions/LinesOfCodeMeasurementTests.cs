@@ -4,7 +4,7 @@ using FluentAssertions;
 using Trunk.Logic.Dimensions.Complexities;
 using Xunit;
 
-namespace Trunk.Logic.Tests.Dimensions.Complexities;
+namespace Trunk.Logic.Tests.Dimensions;
 
 public class LinesOfCodeMeasurementTests
 {

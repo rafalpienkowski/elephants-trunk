@@ -25,19 +25,20 @@ Visualizes the output of the analysis. At the moment, the d3 visualization tool 
 The preliminary step is to gather git log in a particular format. To do that, use this command:
 
 ```sh
-git log --pretty=format:'[%h] %an %ad %s' --date=short --numstat --no-merges --after=2022-01-01 -- '*.cs' > revisions.log
+git log --pretty=format:'[%h] %aN %ad %s' --date=short --numstat --no-merges --after=2022-01-01 -- '*.cs' > revisions.log
 ```
 
 Note that the sample command filters commits by date and file extension. **Important** to use the script described in the next paragraph, the name of the output file must match.
 
-The project is a command line tool. You can run steps independently or use a prepared script `run.sh`.
+The project is a command line tool. You can run steps independently or use a prepared script e.g. `hotspots.sh`.
 
 ```sh
 #!/usr/bin/env bash
+git log --pretty=format:'[%h] %aN %ad %s' --date=short --numstat --no-merges --after=2020-01-01 -- '*.cs' > revisions.log
 
 Trunk.App dimensions measure lines-of-code .
-Trunk.App dimensions measure frequency-of-changes ./revisions.log
-Trunk.App analyze hot-spots ./lines-of-code.csv ./frequencies.csv
+Trunk.App dimensions measure frequency-of-changes revisions.log
+Trunk.App analyze hot-spots ./lines-of-code.csv frequencies.csv
 Trunk.App visualize d3 hotspots.csv
 ```
 
@@ -46,6 +47,24 @@ To visualize the result copy the `hotspot_proto.json` file to visualization fold
 ```sh
 python3 -m http.server 8888
 ```
+
+# Sample visualisatoins
+
+In the visualisation folder you may find useful visualisation pages
+
+## Hot spots
+Represents places in the source code that was under heavy development. It may indicate potential problematic areas in the code.
+
+The size of the circle corresponds to the size of the file in the code base. The more red the circle is the more frequently the code has been changed. Big red circles represent hotspots.
+
+![hot_spots](./img/hot_spots.png)
+
+## Knowledge map
+Represents the code ownership, which means that it represents the author who added the most lines to a particular module. The module granularity is a single folder.
+
+Each circle represents a folder. The color of the last depth folder represents the author of most lines added to the folder.
+
+![knowledge_map](./img/knowledge_map.png)
 
 # Requirements
 

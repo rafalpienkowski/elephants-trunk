@@ -25,7 +25,7 @@
 .label {
   font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-anchor: middle;
-  fill: white;
+  fill: black;
 }
 
 .label,
@@ -80,8 +80,8 @@ d3.json("km_proto.json", function(error, root) {
       .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
       .attr("r", function(d) { return d.r; })
-      .style("fill", function(d) { return d.children ? "WhiteSmoke": d.color; })
-      .style("fill-opacity", 1)
+      .style("fill", function(d) { return d.children ? color(d.depth) : d.color; })
+      .style("fill-opacity", function(d) { return d.weight; })
       .on("click", function(d) { return zoom(focus == d ? root : d); });
 
   svg.append("g").selectAll("text")
@@ -133,7 +133,7 @@ d3.json("km_proto.json", function(error, root) {
 
 var legend = d3.select("body").append("svg")
     .attr("width", 450)
-    .attr("height", 300);
+    .attr("height", 800);
 
 d3.json("km_legend.json", function(error, root) {
   for(i in root){

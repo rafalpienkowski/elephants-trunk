@@ -5,8 +5,8 @@ namespace Trunk.Logic.Visualizations;
 public static class KnowledgeMapVisualizer
 {
     private static readonly string[] BasicColors = {
-        "silver",
         "green",
+        "silver",
         "maroon",
         "lightpink",
         "blue",

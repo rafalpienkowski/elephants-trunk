@@ -6,23 +6,21 @@ public static class KnowledgeMapVisualizer
 {
     private static readonly string[] BasicColors = {
         "silver",
-        "gray",
+        "green",
         "maroon",
+        "lightpink",
+        "blue",
         "red",
+        "coral",
         "purple",
         "fuchsia",
-        "green",
-        "lime",
-        "olive",
-        "yellow",
-        "navy",
-        "blue",
-        "teal",
-        "aqua",
-        "coral",
         "darkgreen",
+        "yellow",
+        "olive",
+        "navy",
+        "aqua",
         "indigo",
-        "lightpink",
+        "lime",
         "mistyrose",
         "sienna"
     };
@@ -34,9 +32,9 @@ public static class KnowledgeMapVisualizer
             Name = "root"
         };
 
-        var random = new Random();
         var authors = knowledgeMap.Select(km => km.Author).Distinct();
-        var authorColorsMap = authors.ToDictionary(author => author, _ => BasicColors[random.Next(0, BasicColors.Length - 1)]);
+        var idx = 0;
+        var authorColorsMap = authors.ToDictionary(author => author, _ => BasicColors[idx++]);
 
         foreach (var knowledgeNode in knowledgeMap)
         {

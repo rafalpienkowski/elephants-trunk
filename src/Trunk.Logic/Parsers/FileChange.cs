@@ -32,9 +32,9 @@ public class FileChange
             return filePath;
         }
 
-        var orgPart = filePath.Substring(0, filePath.IndexOf('{'));
+        var orgPart = filePath[..filePath.IndexOf('{')];
         var normalized = filePath[(filePath.IndexOf(">", StringComparison.Ordinal) + 2)..];
-        return $"{orgPart}{normalized.TrimEnd('}')}";
+        return $"{orgPart}{normalized.Replace("}", "")}";
     }
 
     private static bool FileWasRenamed(string filePath) => filePath.Contains('{');

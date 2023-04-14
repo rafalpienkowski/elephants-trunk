@@ -44,7 +44,13 @@ public class GitRevisionParserTests
 65	0	src/Marten/Services/Json/Transformations/SystemTextJson/SystemTextJsonUpcasters.cs
 26	1	src/Marten/Services/SystemTextJsonSerializer.cs
 6	3	src/Marten/StoreOptions.cs
-5	0	src/Marten/Util/SharedBuffer.cs";
+5	0	src/Marten/Util/SharedBuffer.cs
+
+[fffdb883e] Oskar Dudycz 2022-09-01 Added tests for multiple events' schema versions with JsonNet lambdas
+1	1	src/EventSourcingTests/SchemaChange/MultipleVersions/{ => Lambdas}/ClrUpcastConfiguration.cs
+155	0	src/EventSourcingTests/SchemaChange/MultipleVersions/Lambdas/JsonNetUpcastConfiguration.cs
+1	1	src/EventSourcingTests/SchemaChange/MultipleVersions/{ => Lambdas}/SystemTextJsonUpcastConfiguration.cs
+5	2	src/EventSourcingTests/SchemaChange/MultipleVersions/MultipleSchemaVersions.cs";
     
     [Fact]
     public async Task Should_parse_single_revision_with_multiple_file_changes()
@@ -89,9 +95,13 @@ public class GitRevisionParserTests
         var revisions = await GitRevisionParser.ParseAsync(streamReader);
         
         revisions.Should().NotBeNull();
-        revisions.Should().HaveCount(1);
+        revisions.Should().HaveCount(2);
         revisions[0].FileChanges[2].FilePath.Should()
             .Be("src/Marten/Services/Json/Transformations/JsonTransformations.cs");
+        
+        revisions[1].FileChanges[2].FilePath.Should()
+            .Be("src/EventSourcingTests/SchemaChange/MultipleVersions/Lambdas/SystemTextJsonUpcastConfiguration.cs");
+        
     }
 
     private static void AssertRevisionWithoutFileChange(Revision revision, string author, string message,

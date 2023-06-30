@@ -22,7 +22,31 @@ public static class KnowledgeMapVisualizer
         "indigo",
         "lime",
         "mistyrose",
-        "sienna"
+        "sienna",
+        "pink",
+        "orange",
+        "teal",
+        "gold",
+        "brown",
+        "black",
+        "white",
+        "gray",
+        "lightgray",
+        "darkgray",
+        "cyan",
+        "magenta",
+        "violet",
+        "salmon",
+        "turquoise",
+        "khaki",
+        "orchid",
+        "plum",
+        "tomato",
+        "peru",
+        "chartreuse",
+        "steelblue",
+        "chocolate",
+        "crimson"
     };
     
     public static (KnowledgeMapNode, KeyValuePair<string,string>[]) TransformData(List<KnowledgeNode> knowledgeMap)
